@@ -182,7 +182,28 @@
 
 ### 🎯 APPS CRÍTICOS PARA O MVP (Prioridade Máxima)
 
-#### 1. **Native Audio Function Call Sandbox** 🔥
+#### 1. **Live Audio** 
+
+[x] Baixado em `docs\resources\apps\google`
+
+**Por que é útil:**
+- Visualização 3D reativa ao áudio (opcional para MVP mas impressiona)
+- Exemplo de experiência imersiva com Three.js
+- Sistema de análise de frequências de áudio
+
+**O que pegar (opcional):**
+- Componente de visualização como "plus" visual
+- Sistema de análise de áudio para triggers emocionais
+- Referência de UX imersiva
+
+**Adaptação para Self Flow:**
+- Adicionar visualização opcional ao conversar com clone
+- Usar análise de frequências para detecção de estresse
+
+#### 2. **Native Audio Function Call Sandbox** 🔥
+
+[x] Baixado em `docs\resources\apps\google`
+
 **Por que é essencial:**
 - Base COMPLETA para conversação por voz em tempo real
 - Sistema de Function Calling já implementado
@@ -203,7 +224,10 @@
 
 ---
 
-#### 2. **ChatterBots** 🔥
+#### 3. **ChatterBots** 🔥
+
+[x] Baixado em `docs\resources\apps\google`
+
 **Por que é essencial:**
 - Sistema completo de personalização de agentes
 - Interface de configuração de personalidade/voz/aparência
@@ -224,7 +248,10 @@
 
 ---
 
-#### 3. **Dictation App** 🔥
+#### 4. **Dictation App** 🔥
+
+[x] Baixado em `docs\resources\apps\google`
+
 **Por que é essencial:**
 - Gravação + transcrição + refinamento em pipeline
 - Interface de "notas" já estruturada
@@ -242,23 +269,6 @@
 - Dashboard de conversas refinadas
 - Sistema de captura de "momentos de clareza"
 - Exportação de conversas em formato legível
-
----
-
-#### 4. **Live Audio** 
-**Por que é útil:**
-- Visualização 3D reativa ao áudio (opcional para MVP mas impressiona)
-- Exemplo de experiência imersiva com Three.js
-- Sistema de análise de frequências de áudio
-
-**O que pegar (opcional):**
-- Componente de visualização como "plus" visual
-- Sistema de análise de áudio para triggers emocionais
-- Referência de UX imersiva
-
-**Adaptação para Self Flow:**
-- Adicionar visualização opcional ao conversar com clone
-- Usar análise de frequências para detecção de estresse
 
 ---
 
