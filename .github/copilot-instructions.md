@@ -161,6 +161,164 @@ NEXT_PUBLIC_SUPABASE_URL=    # Supabase project URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY= # Supabase anonymous key
 ```
 
+## PRD CONTINUITY PROTOCOL - ADVANCED SYSTEM
+
+<prd_continuity_protocol>
+  <core_mission>
+    Ensure systematic progression through PRD tasks with 100% accuracy in tracking and execution.
+    CRITICAL: Never leave completed tasks unmarked or execute tasks out of sequence.
+  </core_mission>
+
+  <execution_workflow>
+    <step_1_analysis>
+      <instruction>Read PRD.md completely from start to finish</instruction>
+      <validation_checks>
+        - Identify ALL task sections with [ ] and [x] markers
+        - Map task dependencies and prerequisites  
+        - Note PRD version and last update timestamp
+        - Verify task numbering sequence (PRD-XXXXXX format)
+      </validation_checks>
+      
+      <reflection_point>
+        PAUSE AND REFLECT: "What is the current completion state? 
+        Which phase is active? Are there any inconsistencies between 
+        marked tasks and actual implementation?"
+      </reflection_point>
+    </step_1_analysis>
+
+    <step_2_verification>
+      <marked_task_audit>
+        IF tasks marked as [x] COMPLETED:
+        THEN verify actual implementation exists in codebase
+        ELSE flag discrepancy for correction
+      </marked_task_audit>
+      
+      <implementation_validation>
+        <verification_methods>
+          - Check file existence for file creation tasks
+          - Run builds/tests for implementation tasks  
+          - Verify API endpoints for backend tasks
+          - Test UI components for frontend tasks
+        </verification_methods>
+        
+        <discrepancy_resolution>
+          IF marked as [x] but NOT implemented:
+          THEN change to [ ] and add to execution queue
+          
+          IF marked as [ ] but IS implemented:  
+          THEN change to [x] and document completion
+        </discrepancy_resolution>
+      </implementation_validation>
+    </step_2_verification>
+
+    <step_3_execution_decision>
+      <routing_logic>
+        IF all marked tasks verified as implemented:
+        THEN proceed to next unmarked task sequence
+        
+        IF discrepancies found:
+        THEN correct PRD.md first, then restart protocol
+        
+        IF no unmarked tasks remain:
+        THEN report completion and request next phase
+      </routing_logic>
+      
+      <execution_prerequisites>
+        Before executing ANY task:
+        - User provided EXPLICIT execution permission
+        - All prerequisite tasks marked as [x] completed
+        - Required tools/dependencies available
+        - Clear success criteria defined
+      </execution_prerequisites>
+    </step_3_execution_decision>
+
+    <step_4_task_execution>
+      <execution_protocol>
+        1. Mark target task as IN PROGRESS in manage_todo_list
+        2. Execute task following PRD specifications exactly
+        3. Validate completion against acceptance criteria
+        4. Mark as [x] COMPLETED in PRD.md IMMEDIATELY
+        5. Update manage_todo_list with completion status
+        6. Run validation build/test if applicable
+      </execution_protocol>
+      
+      <completion_validation>
+        MANDATORY: After each task completion:
+        - Verify task meets ALL acceptance criteria
+        - Run npm run build to ensure no breaks
+        - Test functionality in browser if UI task
+        - Document any deviations or issues
+      </completion_validation>
+    </step_4_task_execution>
+  </execution_workflow>
+
+  <error_prevention_rules>
+    <absolute_prohibitions>
+      - NEVER execute tasks without explicit user permission
+      - NEVER mark tasks as [x] before actual completion
+      - NEVER skip prerequisite tasks or dependencies
+      - NEVER assume task completion without validation
+      - NEVER modify PRD structure without user approval
+    </absolute_prohibitions>
+    
+    <quality_guardrails>
+      - Always validate marked tasks against implementation
+      - Maintain strict task sequence and dependencies
+      - Provide detailed completion reports
+      - Flag any inconsistencies immediately
+      - Use both PRD Assistant extension AND manage_todo_list systematically
+    </quality_guardrails>
+    
+    <communication_requirements>
+      - Report progress clearly at each step
+      - Ask for clarification when requirements ambiguous  
+      - Confirm execution permission before starting
+      - Provide completion summary with evidence
+      - Never use emojis in progress reports
+    </communication_requirements>
+  </error_prevention_rules>
+
+  <antipattern_examples>
+    <incorrect_behavior>
+      <example_1>
+        BAD: "I see task PRD-001001 is marked [x], so I'll proceed to PRD-001002"
+        PROBLEM: No verification that PRD-001001 was actually implemented
+      </example_1>
+      
+      <example_2>
+        BAD: "Task completed, moving to next one"
+        PROBLEM: Didn't mark task as [x] in PRD.md immediately
+      </example_2>
+      
+      <example_3>
+        BAD: Executing multiple tasks in parallel without user permission
+        PROBLEM: Violates explicit permission requirement
+      </example_3>
+    </incorrect_behavior>
+    
+    <correct_behavior>
+      <example_1>
+        GOOD: "Analyzing PRD... Found PRD-001001 marked [x]. Verifying implementation... 
+        File exists at src/components/ui/button.tsx. Validation passed. Proceeding to PRD-001002."
+      </example_1>
+      
+      <example_2>
+        GOOD: "Task PRD-001002 completed successfully. Marking as [x] in PRD.md now. 
+        Build validation passed. Ready for next task with your permission."
+      </example_2>
+    </correct_behavior>
+  </antipattern_examples>
+
+  <critical_reminders>
+    REMEMBER: 
+    - PRD continuity requires EXPLICIT user permission for execution
+    - ALWAYS mark completed tasks as [x] IMMEDIATELY  
+    - ALWAYS verify marked tasks against actual implementation
+    - Use PRD Assistant extension format systematically
+    - Never use emojis in protocol communications
+  </critical_reminders>
+</prd_continuity_protocol>
+
 ## Validation Steps
 IF making any changes, THEN:
 1. **Always run `npm run build` after changes**
