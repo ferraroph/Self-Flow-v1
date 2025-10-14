@@ -117,22 +117,22 @@ const NumerologyMap: React.FC = () => {
     interpretation?: any;
     colors?: string[];
   }> = ({ title, number, interpretation, colors }) => (
-    <Card className="h-full">
+    <Card className="h-full bg-gray-800/50 border-gray-600 hover:border-purple-500/50 transition-all">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium flex items-center gap-2">
-          <Calculator className="w-4 h-4" />
+        <CardTitle className="text-sm font-medium flex items-center gap-2 text-white">
+          <Calculator className="w-4 h-4 text-blue-400" />
           {title}
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-3xl font-bold text-primary mb-2">{number}</div>
+        <div className="text-3xl font-bold text-purple-400 mb-2">{number}</div>
         {interpretation && (
           <>
-            <div className="text-xs font-medium text-muted-foreground mb-2">
+            <div className="text-xs font-medium text-gray-300 mb-2">
               {interpretation.title}
             </div>
             {interpretation.description && (
-              <div className="text-xs text-gray-600 line-clamp-4">
+              <div className="text-xs text-gray-400 line-clamp-4">
                 {interpretation.description.substring(0, 150)}...
               </div>
             )}
@@ -155,10 +155,10 @@ const NumerologyMap: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
-      <Card>
+      <Card className="bg-gray-900/90 border-gray-700 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Star className="w-5 h-5" />
+          <CardTitle className="flex items-center gap-2 text-white text-2xl">
+            <Star className="w-6 h-6 text-yellow-400" />
             Mapa Numerológico Cabalístico Completo
           </CardTitle>
         </CardHeader>
@@ -220,28 +220,28 @@ const NumerologyMap: React.FC = () => {
 
       {report && (
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-6">
-            <TabsTrigger value="core" className="flex items-center gap-1">
+          <TabsList className="grid w-full grid-cols-6 bg-gray-800/50 border-gray-600">
+            <TabsTrigger value="core" className="flex items-center gap-1 data-[state=active]:bg-purple-600 data-[state=active]:text-white">
               <User className="w-3 h-3" />
               Núcleos
             </TabsTrigger>
-            <TabsTrigger value="cycles" className="flex items-center gap-1">
+            <TabsTrigger value="cycles" className="flex items-center gap-1 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
               <Calendar className="w-3 h-3" />
               Ciclos
             </TabsTrigger>
-            <TabsTrigger value="predictions" className="flex items-center gap-1">
+            <TabsTrigger value="predictions" className="flex items-center gap-1 data-[state=active]:bg-yellow-600 data-[state=active]:text-white">
               <Star className="w-3 h-3" />
               Previsões
             </TabsTrigger>
-            <TabsTrigger value="love" className="flex items-center gap-1">
+            <TabsTrigger value="love" className="flex items-center gap-1 data-[state=active]:bg-pink-600 data-[state=active]:text-white">
               <Heart className="w-3 h-3" />
               Amor
             </TabsTrigger>
-            <TabsTrigger value="karmic" className="flex items-center gap-1">
+            <TabsTrigger value="karmic" className="flex items-center gap-1 data-[state=active]:bg-indigo-600 data-[state=active]:text-white">
               <Calculator className="w-3 h-3" />
               Cármico
             </TabsTrigger>
-            <TabsTrigger value="colors" className="flex items-center gap-1">
+            <TabsTrigger value="colors" className="flex items-center gap-1 data-[state=active]:bg-green-600 data-[state=active]:text-white">
               <Palette className="w-3 h-3" />
               Cores
             </TabsTrigger>
