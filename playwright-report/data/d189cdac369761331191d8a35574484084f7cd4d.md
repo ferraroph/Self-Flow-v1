@@ -1,0 +1,115 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - heading "Mapa Numerológico Cabalístico Completo" [level=3] [ref=e6]:
+        - img [ref=e7]
+        - text: Mapa Numerológico Cabalístico Completo
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - generic [ref=e12]:
+            - text: Nome Completo
+            - textbox "Nome Completo" [ref=e13]:
+              - /placeholder: Digite seu nome completo
+              - text: MARIA SILVA
+          - generic [ref=e14]:
+            - text: Data de Nascimento
+            - textbox "Data de Nascimento" [ref=e15]: 1985-03-15
+          - generic [ref=e16]:
+            - text: Nome do Parceiro (opcional)
+            - textbox "Nome do Parceiro (opcional)" [ref=e17]:
+              - /placeholder: Nome do parceiro para compatibilidade
+          - generic [ref=e18]:
+            - text: Data de Nascimento do Parceiro
+            - textbox "Data de Nascimento do Parceiro" [disabled] [ref=e19]
+        - button "Gerar Mapa Numerológico" [active] [ref=e20] [cursor=pointer]
+    - generic [ref=e22]:
+      - tablist [ref=e23]:
+        - tab "Núcleos" [selected] [ref=e24] [cursor=pointer]:
+          - img [ref=e25]
+          - text: Núcleos
+        - tab "Ciclos" [ref=e28] [cursor=pointer]:
+          - img [ref=e29]
+          - text: Ciclos
+        - tab "Previsões" [ref=e31] [cursor=pointer]:
+          - img [ref=e32]
+          - text: Previsões
+        - tab "Amor" [ref=e34] [cursor=pointer]:
+          - img [ref=e35]
+          - text: Amor
+        - tab "Cármico" [ref=e37] [cursor=pointer]:
+          - img [ref=e38]
+          - text: Cármico
+        - tab "Cores" [ref=e40] [cursor=pointer]:
+          - img [ref=e41]
+          - text: Cores
+      - tabpanel "Núcleos" [ref=e47]:
+        - generic [ref=e48]:
+          - heading "Informações Pessoais" [level=3] [ref=e50]
+          - generic [ref=e52]:
+            - generic [ref=e53]:
+              - generic [ref=e54]: Nome
+              - generic [ref=e55]: MARIA SILVA
+            - generic [ref=e56]:
+              - generic [ref=e57]: Nascimento
+              - generic [ref=e58]: 14/03/1985
+            - generic [ref=e59]:
+              - generic [ref=e60]: Idade
+              - generic [ref=e61]: 40 anos
+        - generic [ref=e62]:
+          - heading "Números Centrais" [level=3] [ref=e64]
+          - generic [ref=e66]:
+            - generic [ref=e67]:
+              - heading "Motivação" [level=3] [ref=e69]:
+                - img [ref=e70]
+                - text: Motivação
+              - generic [ref=e72]:
+                - generic [ref=e73]: "3"
+                - generic [ref=e74]: ESTABILIDADE
+                - generic [ref=e75]: São muito disciplinados, constantes, regulares e ordeiros. Perseverantes em seus propósitos, incansáveis trabalhadores, dificilmente deixam de atingir...
+            - generic [ref=e76]:
+              - heading "Impressão" [level=3] [ref=e78]:
+                - img [ref=e79]
+                - text: Impressão
+              - generic [ref=e81]:
+                - generic [ref=e82]: "3"
+                - generic [ref=e83]: ESTABILIDADE
+                - generic [ref=e84]: São muito disciplinados, constantes, regulares e ordeiros. Perseverantes em seus propósitos, incansáveis trabalhadores, dificilmente deixam de atingir...
+            - generic [ref=e85]:
+              - heading "Expressão" [level=3] [ref=e87]:
+                - img [ref=e88]
+                - text: Expressão
+              - generic [ref=e90]:
+                - generic [ref=e91]: "6"
+                - generic [ref=e92]: ESTABILIDADE
+                - generic [ref=e93]: São muito disciplinados, constantes, regulares e ordeiros. Perseverantes em seus propósitos, incansáveis trabalhadores, dificilmente deixam de atingir...
+            - generic [ref=e98]:
+              - heading "Destino" [level=3] [ref=e100]:
+                - img [ref=e101]
+                - text: Destino
+              - generic [ref=e103]:
+                - generic [ref=e104]: "4"
+                - generic [ref=e105]: ESTABILIDADE
+                - generic [ref=e106]: São muito disciplinados, constantes, regulares e ordeiros. Perseverantes em seus propósitos, incansáveis trabalhadores, dificilmente deixam de atingir...
+            - generic [ref=e107]:
+              - heading "Missão" [level=3] [ref=e109]:
+                - img [ref=e110]
+                - text: Missão
+              - generic [ref=e112]:
+                - generic [ref=e113]: "1"
+                - generic [ref=e114]: LIDERANÇA CRIATIVA
+                - generic [ref=e115]: Sua missão é liderar e inspirar através da criatividade e inovação. Deve desenvolver independência e originalidade....
+            - generic [ref=e116]:
+              - heading "Dia Natalício" [level=3] [ref=e118]:
+                - img [ref=e119]
+                - text: Dia Natalício
+              - generic [ref=e121]:
+                - generic [ref=e122]: "14"
+                - generic [ref=e123]: DIA DA COMPREENSÃO
+                - generic [ref=e124]: Potencial intelectual, perspectiva pragmática e forte determinação são algumas das qualidades associadas a esta data de nascimento....
+  - button "Open Next.js Dev Tools" [ref=e130] [cursor=pointer]:
+    - img [ref=e131]
+  - alert [ref=e134]
+```

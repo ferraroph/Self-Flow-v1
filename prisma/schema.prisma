@@ -1,0 +1,178 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String?  @unique
+  name        String
+  fullName    String   // Nome completo com acentos para numerologia
+  birthDate   DateTime // Data nascimento para cálculos numerológicos
+  age         Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Dados de personalidade
+  personalityData Json // Respostas do onboarding direcionado
+  personaType     PersonaType? // Persona detectada automaticamente
+  systemPrompt    String? // System prompt personalizado
+  selectedAgent   AgentType @default(HYBRID) // Tipo de agente escolhido
+
+  // Configurações
+  preferredMode ConversationMode @default(TEXT)
+  timezone      String?
+  language      String           @default("pt-BR")
+
+  // Relacionamentos
+  numerologyMap NumerologyMap?
+  conversations Conversation[]
+  insights      Insight[]
+
+  @@map("users")
+}
+
+model NumerologyMap {
+  id     String @id @default(cuid())
+  userId String @unique
+
+  // Números Principais (15+ calculados)
+  motivacao           Int // Soma das vogais do nome
+  impressao           Int // Primeira impressão que causa
+  expressao           Int // Soma total do nome completo
+  destino             Int // Soma da data de nascimento
+  licoesCarmicas      Json // Array de números que faltam
+  tendenciasOcultas   Json // Array de números repetidos
+  harmonicoSuperior   Int // Cálculo específico
+  desafioMenor        Int // Diferença entre mês e dia
+  desafioMaior        Int // Diferença entre ano e destino
+  realizacao1         Int // Primeira realização
+  realizacao2         Int // Segunda realização
+  realizacao3         Int // Terceira realização
+  realizacaoFinal     Int // Realização final
+  anoUniversal        Int // Ano atual em numerologia
+  anoPessoal          Int // Ciclo pessoal atual
+
+  // Metadados dos cálculos
+  calculatedAt DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  isValidated  Boolean  @default(false) // Validação matemática
+
+  // Relacionamentos
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("numerology_maps")
+}
+
+model Conversation {
+  id      String             @id @default(cuid())
+  userId  String
+  title   String? // Auto-gerado ou definido pelo usuário
+  mode    ConversationMode
+  status  ConversationStatus @default(ACTIVE)
+  summary String? // Resumo automático pós-conversa
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages Message[]
+  insights Insight[]
+
+  @@map("conversations")
+}
+
+model Message {
+  id             String   @id @default(cuid())
+  conversationId String
+  role           MessageRole
+  content        String // Texto da mensagem
+  audioUrl       String? // URL do áudio se for voz
+  timestamp      DateTime @default(now())
+
+  // Metadados
+  emotionalTone String? // Detectado pela IA
+  confidence    Float? // Nível de confiança da resposta
+  tokensUsed    Int? // Para controle de custos
+
+  // Relacionamentos
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
+
+model Insight {
+  id             String            @id @default(cuid())
+  userId         String
+  conversationId String? // Pode ser de conversa específica ou geral
+  title          String
+  description    String
+  category       InsightCategory
+  importance     InsightImportance @default(MEDIUM)
+  isRead         Boolean           @default(false)
+  createdAt      DateTime          @default(now())
+
+  // Relacionamentos
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation Conversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull)
+
+  @@map("insights")
+}
+
+// Enums
+enum PersonaType {
+  EMPREENDEDOR_TRAVADO
+  EMPRESARIO_SOBRECARREGADO
+  BUSCADORA_TOXICA
+  BUSCADOR_FILOSOFICO
+  HIGH_PERFORMER
+  ESPIRITUAL
+}
+
+enum AgentType {
+  ESOTERICO   // Numerologia + Astrologia
+  PSICOLOGICO // TCC + Neurociência
+  HYBRID      // Integração de ambas abordagens
+}
+
+enum ConversationMode {
+  VOICE
+  TEXT
+  MIXED
+}
+
+enum ConversationStatus {
+  ACTIVE
+  COMPLETED
+  ARCHIVED
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+}
+
+enum InsightCategory {
+  PADRAO_COMPORTAMENTAL
+  DECISAO_IMPORTANTE
+  EMOCIONAL
+  PROFISSIONAL
+  RELACIONAMENTO
+  AUTOCONHECIMENTO
+}
+
+enum InsightImportance {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
