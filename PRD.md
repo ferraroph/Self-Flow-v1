@@ -123,11 +123,11 @@ npx prisma studio
 - **Solução:** Integrar componentes visuais dos templates de referência
 - **Resultado:** Interface com animações e elementos premium
 
-- [ ] Integrar PulsingBorderShader do personal-agent-hero @dev PRD-OT011
-- [ ] Implementar MeshGradientSVG no dashboard @dev PRD-OT012
-- [ ] Adicionar animações do rotating-earth no mapa numerológico @dev PRD-OT013
-- [ ] Integrar 3d-card-gallery para apresentação de insights @dev PRD-OT014
-- [ ] Implementar gradient-hero na landing page @dev PRD-OT015
+- [x] Integrar PulsingBorderShader do personal-agent-hero @dev PRD-OT011
+- [x] Implementar MeshGradientSVG no dashboard @dev PRD-OT012
+- [x] Adicionar animações do rotating-earth no mapa numerológico @dev PRD-OT013
+- [x] Integrar 3d-card-gallery para apresentação de insights @dev PRD-OT014
+- [x] Implementar gradient-hero na landing page @dev PRD-OT015
 
 ### OTIMIZAÇÃO 4: ENGINE NUMEROLÓGICO PRECISO
 - **Problema:** Cálculos numerológicos podem ter imprecisões
