@@ -369,14 +369,14 @@ function validateCalculations(input: NumerologyInput, original: NumerologyMap): 
     const validation = calculateNumerologyMapValidation(input)
     
     // Comparar resultados críticos
-    const criticalFields = [
+    const criticalFields: Array<keyof Pick<NumerologyMap, 'motivacao' | 'impressao' | 'expressao' | 'destino' | 'harmonicoSuperior' | 'desafioMenor' | 'desafioMaior'>> = [
       'motivacao', 'impressao', 'expressao', 'destino',
       'harmonicoSuperior', 'desafioMenor', 'desafioMaior'
     ]
     
     for (const field of criticalFields) {
-      if (original[field as keyof NumerologyMap] !== validation[field as keyof NumerologyMap]) {
-        console.error(`Validação falhou para ${field}: ${original[field as keyof NumerologyMap]} !== ${validation[field as keyof NumerologyMap]}`)
+      if (original[field] !== validation[field]) {
+        console.error(`Validação falhou para ${field}: ${original[field]} !== ${validation[field]}`)
         return false
       }
     }

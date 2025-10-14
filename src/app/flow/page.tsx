@@ -10,6 +10,7 @@ import { ArrowRight, User, Calculator, Brain, MessageCircle, Sparkles } from 'lu
 import NumerologyMap from '@/components/numerology/NumerologyMap';
 import OnboardingFlow from '@/components/onboarding/OnboardingFlow';
 import AgentSelector from '@/components/agents/AgentSelector';
+import ChatInterface from '@/components/chat/ChatInterface';
 
 import type { NumerologyMap as NumerologyMapType } from '@/lib/numerology/calculator';
 import type { PersonalityProfile, AgentType } from '@/lib/agents/base';
@@ -212,78 +213,17 @@ const SelfFlowMain: React.FC = () => {
       case 'conversation':
         return (
           <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MessageCircle className="w-5 h-5" />
-                  Seu Clone Digital Está Pronto!
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <p className="text-muted-foreground">
-                    Parabéns! Seu clone digital foi criado com base em:
-                  </p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-4 border rounded-lg">
-                      <h4 className="font-medium mb-2 flex items-center gap-2">
-                        <Calculator className="w-4 h-4" />
-                        Mapa Numerológico
-                      </h4>
-                      <div className="text-sm text-muted-foreground space-y-1">
-                        <div>Motivação: {flowState.numerologyMap?.motivacao}</div>
-                        <div>Expressão: {flowState.numerologyMap?.expressao}</div>
-                        <div>Destino: {flowState.numerologyMap?.destino}</div>
-                        <div>Ano Pessoal: {flowState.numerologyMap?.anoPessoal}</div>
-                      </div>
-                    </div>
-                    
-                    <div className="p-4 border rounded-lg">
-                      <h4 className="font-medium mb-2 flex items-center gap-2">
-                        <User className="w-4 h-4" />
-                        Perfil Comportamental
-                      </h4>
-                      <div className="text-sm text-muted-foreground space-y-1">
-                        <div>Comunicação: {flowState.personalityProfile?.communicationStyle}</div>
-                        <div>Decisões: {flowState.personalityProfile?.decisionMaking}</div>
-                        <div>Abertura Espiritual: {flowState.personalityProfile?.spiritualOpenness}/5</div>
-                        <div>Interesse Psicológico: {flowState.personalityProfile?.psychologicalInterest}/5</div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="p-4 border rounded-lg bg-primary/5">
-                    <h4 className="font-medium mb-2 flex items-center gap-2">
-                      <Brain className="w-4 h-4" />
-                      Agente Selecionado
-                    </h4>
-                    <div className="flex items-center gap-2">
-                      <Badge variant="secondary">
-                        {flowState.selectedAgent === 'ESOTERICO' ? '🔮 Esotérico' :
-                         flowState.selectedAgent === 'PSICOLOGICO' ? '🧠 Psicológico' :
-                         '🌟 Híbrido'}
-                      </Badge>
-                      <span className="text-sm text-muted-foreground">
-                        Clone especializado criado com sucesso
-                      </span>
-                    </div>
-                  </div>
-
-                  <Separator />
-
-                  <div className="text-center">
-                    <p className="text-sm text-muted-foreground mb-4">
-                      A interface de conversação com seu clone estará disponível em breve.
-                    </p>
-                    <Button size="lg" disabled>
-                      <MessageCircle className="w-4 h-4 mr-2" />
-                      Iniciar Conversa (Em Desenvolvimento)
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            {flowState.numerologyMap && flowState.personalityProfile && flowState.selectedAgent && (
+              <ChatInterface
+                numerologyMap={flowState.numerologyMap}
+                personalityProfile={flowState.personalityProfile}
+                selectedAgent={flowState.selectedAgent}
+                onInsightGenerated={(insight) => {
+                  console.log('Novo insight gerado:', insight);
+                  // Aqui pode implementar salvamento de insights
+                }}
+              />
+            )}
           </div>
         );
 
