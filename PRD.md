@@ -1,1291 +1,996 @@
-# PRD - SELF FLOW MVP
+# PRD - SELF FLOW OTIMIZAÇÕES CRÍTICAS V2.0
 
-## Product Requirements Document - Versão 1.0
-
-**Data:** 13 de Outubro de 2025
-**Status:** Pronto para Implementação
-**Timeline:** MVP em 4-6 horas
-**Orçamento:** R$ 0,00 (pay-per-use APIs apenas)
+**Data:** 14 de Outubro de 2025  
+**Status:** Implementação Imediata  
+**Objetivo:** Integrar templates Google AI Studio + funcionalidades reais + upgrade visual premium
 
 ---
-## 🎯 1. VISÃO DO PRODUTO
 
-**"Converse com a versão mais clara de você mesmo, que já viveu todos os seus futuros possíveis e pode te guiar com precisão cirúrgica."**
+## 🔧 CONFIGURAÇÃO DE ENVIRONMENT E DEPENDÊNCIAS
 
-**Self Flow** é uma aplicação web conversacional multi-dimensional que cria clones digitais personalizados baseados em mapeamento numerológico cabalístico + perfil comportamental. O usuário primeiro descobre seu mapa numerológico completo, escolhe sua abordagem preferida (esotérica, psicológica ou híbrida), e conversa com sua versão mais clara e centrada - um clone IA especializado que integra sabedoria numerológica com insights comportamentais únicos.
+### PASSO 1: Configurar APIs e Chaves Necessárias
 
-**Diferencial único:** Não é chatbot genérico - é VOCÊ conversando consigo mesmo sem filtros emocionais ou autossabotagem.
-
----
-## 👥 2. PERSONAS DE USUÁRIO
-
-### Persona Primária: Profissional em Busca de Clareza Multi-Dimensional (25-55 anos)
-
-**Demografia:** Classe média educada, renda R$3-30K/mês, trabalha com decisões complexas
-
-**Contexto:** Competente profissionalmente mas preso em conflitos internos, curioso sobre autoconhecimento
-
-**Dor:** "Sei que há mais sobre mim que não entendo. Preciso de clareza profunda, não só conselhos externos."
-
-**Desejo:** Descobrir seu mapa numerológico + conversar com versão esclarecida de si mesmo
-
-**Jornada:** Nome+nascimento → Mapa numerológico → Escolha de abordagem → Clone personalizado
-### Personas Secundárias:
-
-- **Empreendedor Esotérico:** Combina negócios com espiritualidade, quer agente numerologia+astrologia
-
-- **Executivo Analítico:** Prefere abordagem psicológica/científica, cético do esotérico
-
-- **Buscadora Holística:** Quer integração completa (híbrido), numerologia + psicologia + astrologia
-
-- **Empresário Pragmático:** Quer insights rápidos baseados em dados numerológicos precisos
-
-- **Terapeuta Curiosa:** Profissional da área que quer entender a ferramenta para si mesma
-
-- **Jovem Autoconhecimento:** 18-25 anos, primeira experiência com mapeamento profundo
-
----
-## 🔧 3. REQUISITOS FUNCIONAIS
-
-### 3.1 Funcionalidades Must-Have (MVP)
-
-| ID| Funcionalidade| Descrição | Prioridade |
-| --------- | --------------------------------------- | ------------------------------------------------------------------------------------------------- | ---------- |
-| **RF001** | **Mapeamento Numerológico Cabalístico** | Sistema que calcula mapa numerológico completo a partir de nome completo + data nascimento| MUST |
-| **RF002** | **Validação Matemática Precisa**| Sistema de validação dos cálculos numerológicos com múltiplas verificações para garantir precisão | MUST |
-| **RF003** | **Apresentação Gamificada do Mapa** | Interface visual estilo Obsidian para apresentar os 15+ números calculados de forma interativa| MUST |
-| **RF004** | **Seletor de Agente Especializado** | Sistema multi-agente: esotérico (numerologia+astrologia), psicológico (TCC+neuro), híbrido| MUST |
-| **RF005** | **Onboarding Direcionado**| Perguntas adaptadas ao perfil numerológico identificado (10-15 perguntas específicas) | MUST |
-| **RF006** | **Clone Digital Multi-Dimensional** | IA baseada no mapa numerológico + respostas comportamentais + agente escolhido| MUST |
-| **RF007** | **Conversação por Voz** | Chat em tempo real com o clone via áudio bidirecional (Gemini Live API) | MUST |
-| **RF008** | **Conversação por Texto** | Interface de chat tradicional como alternativa ao áudio | MUST |
-| **RF009** | **Dashboard Multi-Modal** | Painel integrando mapa numerológico + insights comportamentais + evolução | MUST |
-### 3.2 Funcionalidades Should-Have (Pós-MVP Imediato)
-
-| ID| Funcionalidade| Descrição| Prioridade |
-| --------- | --------------------------------------- | ---------------------------------------------------------------------- | ---------- |
-| **RF010** | **Integração Astrológica**| Mapa astrológico completo integrado ao perfil numerológico | SHOULD |
-| **RF011** | **Ciclos Numerológicos Personalizados** | Alertas baseados em ano pessoal, mês pessoal, dia pessoal| SHOULD |
-| **RF012** | **Modo Devaneio Multi-Dimensional** | Simulação de cenários usando insights numerológicos + comportamentais| SHOULD |
-| **RF013** | **Micro-Meditações Direcionadas** | Intervenções de 30s adaptadas ao perfil numerológico atual | SHOULD |
-| **RF014** | **TCC Inversa Numerológica**| Identifica padrões comportamentais usando lições cármicas e tendências | SHOULD |
-| **RF015** | **Avatar Visual Numerológico**| Representação visual que reflete números dominantes no mapa| SHOULD |
-### 3.3 Funcionalidades Could-Have (Futuras)
-
-| ID| Funcionalidade | Descrição| Prioridade |
-| --------- | -------------------------------------- | ------------------------------------------------------------ | ---------- |
-| **RF016** | **Compatibilidade Numerológica** | Análise de relacionamentos baseada em mapas numerológicos| COULD|
-| **RF017** | **Previsões Anuais Personalizadas**| Relatório detalhado baseado em ciclos numerológicos pessoais | COULD|
-| **RF018** | **Histórico de Evolução Numerológica** | Timeline visual mostrando crescimento pessoal via números| COULD|
-| **RF019** | **Comunidade por Números Mestres** | Espaços para pessoas com mesmo número dominante| COULD|
-| **RF020** | **Integração Calendário Lunar**| Sincronização com fases lunares e ciclos numerológicos | COULD|
-| **RF021** | **Exportar Mapa Completo** | Download PDF/imagem do mapa numerológico + insights| COULD|
-
----
-## 3.5 SISTEMA NUMEROLÓGICO CABALÍSTICO
-
-### 3.5.1 Números Calculados (15+ tipos)
-
-| Tipo                   | Fórmula                   | Descrição                                 | Exemplo                               |
-| ---------------------- | ------------------------- | ----------------------------------------- | ------------------------------------- |
-| **Motivação**          | Soma das vogais do nome   | Desejos internos e aspirações profundas   | MARIA = A+I+A = 1+9+1 = 11            |
-| **Impressão**          | Soma das consoantes       | Primeira impressão que causa nos outros   | MARIA = M+R = 4+9 = 13 → 4            |
-| **Expressão**          | Soma total do nome        | Talentos naturais e forma de se expressar | MARIA = 11+13 = 24 → 6                |
-| **Destino**            | Soma da data nascimento   | Missão de vida e propósito maior          | 15/03/1985 = 1+5+0+3+1+9+8+5 = 32 → 5 |
-| **Lições Cármicas**    | Números ausentes (1-9)    | Desafios que precisa desenvolver          | Nome sem 2,7,8 = Lições: [2,7,8]      |
-| **Tendências Ocultas** | Números repetidos         | Características intensificadas            | Nome com 3 vezes o 1 = Tendência: [1] |
-| **Harmônico Superior** | Expressão + Destino       | Integração de talentos e propósito        | 6 + 5 = 11 (Mestre)                   |
-| **Desafio Menor**      | abs(Mês - Dia) nascimento | Primeiro obstáculo a superar              | abs(03-15) = 12 → 3                   |
-| **Desafio Maior**      | abs(Ano - Destino)        | Desafio principal da vida                 | abs(1985-5) = 1980 → 9                |
-| **Realização 1**       | (Dia + Mês) reduzido      | Primeira fase da vida (0-30 anos)         | (15+03) = 18 → 9                      |
-| **Realização 2**       | (Dia + Ano) reduzido      | Segunda fase da vida (30-50 anos)         | (15+1985) = 2000 → 2                  |
-| **Realização 3**       | Real1 + Real2             | Terceira fase da vida (50+ anos)          | 9 + 2 = 11                            |
-| **Realização Final**   | Mês + Ano reduzido        | Realização máxima possível                | (03+1985) = 1988 → 8                  |
-| **Ano Universal**      | Soma do ano atual         | Energia coletiva do ano                   | 2025 = 2+0+2+5 = 9                    |
-| **Ano Pessoal**        | (Dia+Mês+Ano atual)       | Ciclo pessoal de 9 anos                   | (15+03+2025) = 2043 → 9               |
-### 3.5.2 Números Mestres (Não reduzir)
-
-- **11** - Intuição, inspiração, iluminação espiritual
-- **22** - Construtor mestre, visão prática de grande escala
-- **33** - Professor mestre, serviço compassivo à humanidade
-### 3.5.3 Validações Matemáticas Obrigatórias
-
-- ✅ Verificação dupla de todos os cálculos
-- ✅ Tratamento especial para números mestres
-- ✅ Validação de datas (anos bissextos, etc.)
-- ✅ Controle de caracteres especiais (ç, ã, etc.)
-- ✅ Log detalhado para auditoria de cálculos
-
----
-## 📱 4. USER FLOWS
-
-### 4.1 Fluxo Principal: Primeira Experiência
-
+#### Google AI Studio API
+```bash
+# Obter Google AI API Key
+# 1. Acesse: https://aistudio.google.com/
+# 2. Clique em "Get API Key" 
+# 3. Crie novo projeto ou use existente
+# 4. Copie a API key gerada
 ```
 
-1. LANDING PAGE
+#### Supabase Setup (Via CLI - MÉTODO CORRETO)
+```bash
+# Instalar Supabase CLI
+npm install -g @supabase/cli
 
- ↓
+# Login no Supabase
+supabase login
 
-2. "Criar Meu Clone Digital" (CTA)
+# Listar projetos
+supabase projects list
 
- ↓
+# Obter environment variables automaticamente
+supabase projects api-keys --project-id=<seu-project-id>
 
-3. MAPEAMENTO NUMEROLÓGICO (NOVO!)
-
- - Coleta nome completo (com acentos)
-
- - Data de nascimento
-
- - Sistema calcula Mapa Numerológico Cabalístico completo
-
- - Apresentação gamificada do mapa (estilo Obsidian)
-
- ↓
-
-4. ESCOLHA DE ABORDAGEM
-
- - Esotérica (Numerologia + Astrologia)
-
- - Psicológica (TCC + Neurociência)
-
- - Híbrida (Integração de ambas)
-
- ↓
-
-5. ONBOARDING DIRECIONADO
-
- - Perguntas adaptadas ao perfil numerológico identificado
-
- - 10-12 perguntas de personalidade específicas
-
- - Preview do clone personalizado
-
- ↓
-
-6. PRIMEIRA CONVERSA
-
- - "Olá [Nome], sou você com clareza total baseada em seu mapa [tipo escolhido]. O que te trouxe aqui?"
-
- - Conversa de 5-10 minutos
-
- - Clone identifica padrões usando base numerológica
-
- ↓
-
-7. DASHBOARD MULTI-DIMENSIONAL
-
- - Mapa numerológico visual
-
- - Resumo da primeira conversa
-
- - Insights cruzados (numerologia + comportamento)
-
- - Tabs para diferentes mapas (se escolheu híbrido)
-
- ↓
-
-8. LOOP DE ENGAJAMENTO
-
- - Notificações baseadas em ciclos numerológicos pessoais
-
- - Conversas regulares com agentes especializados
-
- - Evolução do clone com dados comportamentais + numerológicos
-
+# Output automático:
+# NEXT_PUBLIC_SUPABASE_URL=https://xxxxxx.supabase.co
+# NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+# SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
-### 4.2 Fluxo Secundário: Conversa Recorrente
-
-
-```
-
-1. LOGIN SIMPLES
-
- ↓
-
-2. DASHBOARD
-
- - Últimas conversas
-
- - Insights pendentes
-
- - Sugestões de temas
-
- ↓
-
-3. INICIAR CONVERSA
-
- - Escolha: Voz ou Texto
-
- - Tópico sugerido ou livre
-
- ↓
-
-4. CONVERSAÇÃO
-
- - IA adapta tom baseado no estado emocional detectado
-
- - Intervenções micro-meditativas quando necessário
-
- - Identificação de padrões em tempo real
-
- ↓
-
-5. PÓS-CONVERSA
-
- - Resumo automático
-
- - Insights capturados
-
- - Próximos passos sugeridos
-
-```
-
-### 4.3 Estados de Erro e Recuperação
-
-| Erro                          | Recuperação                                            |
-| ----------------------------- | ------------------------------------------------------ |
-| **API Gemini indisponível**   | Fallback para GPT-4 ou modo offline com mensagem clara |
-| **Microfone não funciona**    | Redirect automático para chat por texto                |
-| **Conversa muito longa**      | Auto-save a cada 2 minutos + aviso de limite           |
-| **Sistema prompt corrompido** | Re-geração automática baseada no perfil salvo          |
-| **Dados perdidos**            | Backup automático no localStorage + Supabase           |
-
----
-## 🗄️ 5. DATABASE SCHEMA (Prisma)
-
-
-```prisma
-
-// Schema para PostgreSQL/Supabase
-
-generator client {
-
-provider = "prisma-client-js"
-
-}
-
-
-
-datasource db {
-
-provider = "postgresql"
-
-url= env("DATABASE_URL")
-
-}
-
-
-
-model User {
-
-idString@id @default(cuid())
-
-email String? @unique
-
-nameString
-
-fullNameString// Nome completo com acentos para numerologia
-
-birthDate DateTime// Data nascimento para cálculos numerológicos
-
-age Int?
-
-createdAt DateTime@default(now())
-
-updatedAt DateTime@updatedAt
-
-// Dados de personalidade
-
-personalityData Json// Respostas do onboarding direcionado
-
-personaType PersonaType? // Persona detectada automaticamente
-
-systemPromptString? // System prompt personalizado
-
-selectedAgent AgentType @default(HYBRID) // Tipo de agente escolhido
-
-// Configurações
-
-preferredMode ConversationMode @default(TEXT)
-
-timezoneString?
-
-languageString@default("pt-BR")
-
-// Relacionamentos
-
-numerologyMap NumerologyMap?
-
-conversations Conversation[]
-
-insightsInsight[]
-
-@@map("users")
-
-}
-
-
-
-model NumerologyMap {
-
-idString@id @default(cuid())
-
-userIdString@unique
-
-// Números Principais (15+ calculados)
-
-motivacao Int // Soma das vogais do nome
-
-impressao Int // Primeira impressão que causa
-
-expressao Int // Soma total do nome completo
-
-destino Int // Soma da data de nascimento
-
-licoesCarmicasJson// Array de números que faltam
-
-tendenciasOcultas Json// Array de números repetidos
-
-harmonicoSuperior Int // Cálculo específico
-
-desafioMenorInt // Diferença entre mês e dia
-
-desafioMaiorInt // Diferença entre ano e destino
-
-realizacao1 Int // Primeira realização
-
-realizacao2 Int // Segunda realização
-
-realizacao3 Int // Terceira realização
-
-realizacaoFinal Int // Realização final
-
-anoUniversalInt // Ano atual em numerologia
-
-anoPessoalInt // Ciclo pessoal atual
-
-// Metadados dos cálculos
-
-calculatedAtDateTime@default(now())
-
-updatedAt DateTime@updatedAt
-
-isValidated Boolean @default(false) // Validação matemática
-
-// Relacionamentos
-
-userUser@relation(fields: [userId], references: [id], onDelete: Cascade)
-
-@@map("numerology_maps")
-
-}
-
-
-
-model Conversation {
-
-idString@id @default(cuid())
-
-userIdString
-
-title String? // Auto-gerado ou definido pelo usuário
-
-modeConversationMode
-
-statusConversationStatus @default(ACTIVE)
-
-summary String? // Resumo automático pós-conversa
-
-createdAt DateTime@default(now())
-
-updatedAt DateTime@updatedAt
-
-// Relacionamentos
-
-userUser@relation(fields: [userId], references: [id], onDelete: Cascade)
-
-messagesMessage[]
-
-insightsInsight[]
-
-@@map("conversations")
-
-}
-
-
-
-model Message {
-
-idString@id @default(cuid())
-
-conversationIdString
-
-roleMessageRole
-
-content String// Texto da mensagem
-
-audioUrlString? // URL do áudio se for voz
-
-timestamp DateTime@default(now())
-
-// Metadados
-
-emotionalTone String? // Detectado pela IA
-
-confidenceFloat?// Nível de confiança da resposta
-
-tokensUsedInt?// Para controle de custos
-
-// Relacionamentos
-
-conversationConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-
-@@map("messages")
-
-}
-
-
-
-model Insight {
-
-idString@id @default(cuid())
-
-userIdString
-
-conversationIdString? // Pode ser de conversa específica ou geral
-
-title String
-
-description String
-
-categoryInsightCategory
-
-importanceInsightImportance @default(MEDIUM)
-
-isReadBoolean @default(false)
-
-createdAt DateTime@default(now())
-
-// Relacionamentos
-
-userUser@relation(fields: [userId], references: [id], onDelete: Cascade)
-
-conversationConversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull)
-
-@@map("insights")
-
-}
-
-
-
-// Enums
-
-enum PersonaType {
-
-EMPREENDEDOR_TRAVADO
-
-EMPRESARIO_SOBRECARREGADO
-
-BUSCADORA_TOXICA
-
-BUSCADOR_FILOSOFICO
-
-HIGH_PERFORMER
-
-ESPIRITUAL
-
-}
-
-
-
-enum AgentType {
-
-ESOTERICO// Numerologia + Astrologia
-
-PSICOLOGICO // TCC + Neurociência
-
-HYBRID// Integração de ambas abordagens
-
-}
-
-
-
-enum ConversationMode {
-
-VOICE
-
-TEXT
-
-MIXED
-
-}
-
-
-
-enum ConversationStatus {
-
-ACTIVE
-
-COMPLETED
-
-ARCHIVED
-
-}
-
-
-
-enum MessageRole {
-
-USER
-
-ASSISTANT
-
-SYSTEM
-
-}
-
-
-
-enum InsightCategory {
-
-PADRAO_COMPORTAMENTAL
-
-DECISAO_IMPORTANTE
-
-EMOCIONAL
-
-PROFISSIONAL
-
-RELACIONAMENTO
-
-AUTOCONHECIMENTO
-
-}
-
-
-
-enum InsightImportance {
-
-LOW
-
-MEDIUM
-
-HIGH
-
-CRITICAL
-
-}
-
-```
-
----
-## 💻 6. TECH STACK
-
-### 6.1 Frontend
-
-- **Framework:** Next.js 15 (App Router)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS + shadcn/ui
-- **State Management:** Zustand (múltiplos estados de agentes)
-- **Forms:** React Hook Form + Zod validation
-- **Audio:** Web Audio API (nativo, zero custo)
-- **Visualização:** D3.js ou Vis.js (para mapas estilo Obsidian)
-- **Cálculos:** Custom numerology engine (TypeScript puro)
-
-### 6.2 Backend & APIs
-
-- **Database:** Supabase (PostgreSQL + Real-time + Auth)
-- **ORM:** Prisma Client
-- **Numerologia:** Sistema proprietário de cálculos (validação dupla)
-- **AI APIs:**
-- Primary: Gemini 2.5 Flash Audio (Google AI Studio)
-- Backup: OpenAI GPT-4 (para fallback)
-- Multi-Agent: System prompts especializados por tipo (esotérico/psicológico/híbrido)
-- **Vector DB:** Pinecone (free tier para embeddings numerológicos + comportamentais)
-
-### 6.3 Deployment & Infrastructure
-
-- **Hosting:** Vercel (free tier)
-- **CDN:** Vercel Edge Network
-- **Storage:** Supabase Storage (arquivos de áudio)
-- **Auth:** Supabase Auth (social login)
-- **Monitoring:** Vercel Analytics (gratuito)
-
-### 6.4 Development Tools
-
-- **Code Editor:** VS Code + PRD Assistant extension
-- **Version Control:** Git + GitHub
-- **Package Manager:** npm/yarn
-- **Linting:** ESLint + Prettier
-- **Testing:** Jest + React Testing Library (opcional para MVP)
-
-### 6.5 Design System & UI Framework
-
-#### **Conceito Visual:** "Clareza Digital Humanizada"
-
-- **Filosofia:** Interface limpa que não distrai do autoconhecimento
-- **Personalidade:** Empático mas direto, inteligente mas acessível, confiável mas inovador
-
-#### **Sistema de Cores:**
-
-```css
-
-/* Primary - Azul Profundidade */
-
---sf-primary-500: #3b82f6;/* Botões principais, links */
-
---sf-primary-600: #2563eb;/* Hover states */
-
-
-
-/* Secondary - Violeta Insight */
-
---sf-secondary-500: #a855f7; /* Personalização/clone */
-
-
-
-/* Neutros */
-
---sf-neutral-50: #f9fafb; /* Backgrounds claros */
-
---sf-neutral-600: #4b5563;/* Texto principal */
-
---sf-neutral-800: #1f2937;/* Texto importante */
-
-```
-
-
-#### **Tipografia:**
-
-- **Fonte Principal:** Inter (Google Fonts)
-- **Display:** 3rem+ para títulos principais (numerology results)
-- **Body:** 1rem para texto padrão (chat, descrições)
-- **Caption:** 0.875rem para metadados (timestamps, labels)
-
-
-#### **Componentes Principais:**
-
-- **Cards Numerológicos:** Visual estilo Obsidian com animações suaves
-- **Chat Interface:** Bubbles humanizados, indicadores de typing
-- **Botões:** Primary (azul sólido), Secondary (outline), Ghost
-- **Dashboard:** Grid responsivo com métricas visuais
-
-#### **Animações & Micro-interações:**
-
-- **Transições:** 250ms cubic-bezier(0, 0, 0.2, 1)
-- **Number Reveal:** Animação especial para resultados numerológicos
-- **Loading States:** Indicators suaves, não intrusivos
-- **Hover Effects:** Subtle scale + shadow
-
-#### **Responsividade:**
-
-- **Mobile-First:** Design prioritiza experiência mobile
-- **Breakpoints:** 640px (tablet), 768px (desktop), 1024px (large)
-- **Touch-Friendly:** Buttons 44px+ mínimo, gestures naturais
-
-#### **Acessibilidade (WCAG 2.1 AA):**
-
-- **Contraste:** Mínimo 4.5:1 para texto normal
-- **Focus States:** Outline visível para navegação por teclado
-- **ARIA Labels:** Screen reader friendly
-- **Color Independence:** Informação não depende apenas de cor
-
-#### **Referência Completa:** [Briefing 7 - Design System e Referencias Visuais.md](./docs/Briefing%207%20-%20Design%20System%20e%20Referencias%20Visuais.md)
-
----
-## ✅ 7. CRITÉRIOS DE ACEITAÇÃO
-
-### 7.1 RF001 - Mapeamento Numerológico Cabalístico
-
-**Critério:** Sistema deve calcular mapa numerológico completo com 100% de precisão matemática
-#### **Acceptance Criteria:**
-
-- [ ] Interface de coleta nome completo (validação acentos) + data nascimento @frontend PRD-001001
-- [ ] Implementar 15+ cálculos numerológicos (Motivação, Impressão, Expressão, etc.) @backend PRD-001002
-- [ ] Sistema de validação matemática com dupla verificação @backend PRD-001003
-- [ ] Armazenamento seguro dos dados numerológicos no Supabase @backend PRD-001004
-- [ ] API para gerar mapa numerológico completo @backend PRD-001005
-- [ ] Tratamento de casos especiais (números mestres 11, 22, 33) @backend PRD-001006
-- [ ] Log de auditoria para debugging de cálculos @backend PRD-001007
-
-### 7.2 RF003 - Apresentação Gamificada do Mapa
-
-**Critério:** Interface visual deve apresentar 15+ números de forma intuitiva e interativa
-#### **Acceptance Criteria:**
-
-- [ ] Layout tipo Obsidian Graph com nodes conectados @frontend PRD-003001
-- [ ] Cards interativos para cada número calculado @frontend PRD-003002
-- [ ] Animações suaves de entrada/saída dos elementos @frontend PRD-003003
-- [ ] Tooltips explicativos para cada número @frontend PRD-003004
-- [ ] Modo escuro/claro para visualização @frontend PRD-003005
-- [ ] Responsividade para mobile (touch interactions) @frontend PRD-003006
-- [ ] Opção de compartilhar mapa via link/imagem @frontend PRD-003007
-
-### 7.2 RF002 - Clone Digital Personalizado
-
-**Critério:** IA deve responder de forma consistente com a personalidade mapeada em >85% das interações
-#### **Acceptance Criteria:**
-
-- [ ] **AC002.1** - System prompt dinâmico gerado baseado nas respostas do onboarding
-- [ ] **AC002.2** - Adaptação do tom/linguagem baseado na persona detectada
-- [ ] **AC002.3** - Referências específicas às informações fornecidas pelo usuário
-- [ ] **AC002.4** - Consistência de personalidade entre conversas (não contradições)
-- [ ] **AC002.5** - Capacidade de "lembrar" informações de conversas anteriores
-- [ ] **AC002.6** - Evolução gradual do clone baseada em novas interações
-- [ ] **AC002.7** - Fallback gracioso quando informações são insuficientes
-
-### 7.3 RF003 - Conversação por Voz
-
-**Critério:** Áudio bidirecional funcional com latência <3 segundos em 90% dos casos
-#### **Acceptance Criteria:**
-
-- [ ] **AC003.1** - Gravação de áudio via Web Audio API com indicador visual
-- [ ] **AC003.2** - Transcrição automática do áudio para texto (via Gemini Audio)
-- [ ] **AC003.3** - Resposta em áudio sintético com voz natural
-- [ ] **AC003.4** - Controles de play/pause/stop para áudio de resposta
-- [ ] **AC003.5** - Indicador de status (gravando/processando/respondendo)
-- [ ] **AC003.6** - Fallback para texto se áudio falhar
-- [ ] **AC003.7** - Histórico mostra tanto áudio quanto transcrição
-
-### 7.4 RF004 - Conversação por Texto
-
-**Critério:** Interface de chat responsiva com typing indicators e formatação adequada
-#### **Acceptance Criteria:**
-
-- [ ] **AC004.1** - Input field com auto-resize e contador de caracteres
-- [ ] **AC004.2** - Envio por Enter (ou Shift+Enter para nova linha)
-- [ ] **AC004.3** - Typing indicator enquanto IA processa resposta
-- [ ] **AC004.4** - Mensagens formatadas com Markdown básico (negrito, itálico, listas)
-- [ ] **AC004.5** - Scroll automático para última mensagem
-- [ ] **AC004.6** - Timestamps relativos (há 2 minutos, ontem, etc.)
-- [ ] **AC004.7** - Botão para alternar entre voz e texto durante conversa
-
-### 7.5 RF005 - Histórico de Conversas
-
-**Critério:** Todas as conversas são salvas automaticamente com busca e organização eficientes
-#### **Acceptance Criteria:**
-
-- [ ] **AC005.1** - Lista de conversas ordenada por data (mais recente primeiro)
-- [ ] **AC005.2** - Título automático gerado baseado no conteúdo da conversa
-- [ ] **AC005.3** - Busca por palavra-chave no conteúdo das conversas
-- [ ] **AC005.4** - Filtros por data, duração e modo (voz/texto)
-- [ ] **AC005.5** - Preview de 2-3 linhas do conteúdo na lista
-- [ ] **AC005.6** - Possibilidade de renomear título da conversa
-- [ ] **AC005.7** - Backup automático no localStorage + sincronização com Supabase
-
-### 7.6 RF006 - Personas Adaptativas
-
-**Critério:** System prompt se adapta automaticamente baseado no perfil com >90% de precisão na detecção
-#### **Acceptance Criteria:**
-
-- [ ] **AC006.1** - Algoritmo detecta persona mais provável baseado nas respostas
-- [ ] **AC006.2** - Linguagem/tom adaptado para cada uma das 6 personas definidas
-- [ ] **AC006.3** - Exemplos específicos relevantes para o contexto de cada persona
-- [ ] **AC006.4** - Possibilidade de override manual da persona detectada
-- [ ] **AC006.5** - Histórico mostra qual persona estava ativa em cada conversa
-- [ ] **AC006.6** - Re-detecção periódica baseada em novas informações
-- [ ] **AC006.7** - Transição suave entre personas se houver mudança
-
-### 7.7 RF007 - Dashboard de Insights
-
-**Critério:** Painel apresenta descobertas relevantes de forma visual e acionável
-#### **Acceptance Criteria:**
-
-- [ ] **AC007.1** - Cards com insights categorizados (comportamental, emocional, profissional)
-- [ ] **AC007.2** - Indicadores visuais de importância (crítico, alto, médio, baixo)
-- [ ] **AC007.3** - Timestamps de quando cada insight foi descoberto
-- [ ] **AC007.4** - Possibilidade de marcar insights como "lidos"
-- [ ] **AC007.5** - Geração automática de insights baseada em padrões das conversas
-- [ ] **AC007.6** - Export de insights para formato legível (PDF/Markdown)
-- [ ] **AC007.7** - Sugestões de próximas conversas baseadas nos insights
-
----
-## 📊 8. MÉTRICAS DE SUCESSO
-
-### 8.1 Métricas Técnicas (MVP)
-
-- **Uptime:** >99% (monitorado via Vercel)
-- **Latência de resposta:** <3s para texto, <5s para áudio
-- **Taxa de erro da API:** <2%
-- **Tempo de carregamento inicial:** <2s
-
-### 8.2 Métricas de Produto (Pós-MVP)
-
-- **Taxa de conclusão do mapeamento numerológico:** >95%
-- **Taxa de escolha de agente (não sair no híbrido):** >70%
-- **Conversas por usuário/semana:** 3+ (engajamento)
-- **Sessão média:** 10-15 minutos
-- **Retenção D7:** >60%
-- **Retenção D30:** >40%
-
-### 8.3 Métricas de Qualidade Numerológica
-
-- **Precisão matemática dos cálculos:** 100% (validação dupla obrigatória)
-- **NPS específico do mapa numerológico:** >75
-- **Satisfação com apresentação visual:** >4.3/5
-- **Taxa de compartilhamento do mapa:** >25%
-- **Insights numerológicos úteis:** >5 por usuário nos primeiros 3 dias
-
-### 8.4 Métricas de Qualidade Conversacional
-
-- **NPS conversas com clone:** >70
-- **Satisfação com respostas multi-dimensionais:** >4.2/5
-- **Precisão da persona + agente detectado:** >85% (validação manual)
-- **Consistência numerológica nas respostas:** >90% (auditoria IA)
-
----
-## 🔒 9. REQUISITOS NÃO-FUNCIONAIS
-
-### 9.1 Performance
-
-- **Responsividade:** Design responsivo para mobile-first
-- **Otimização de imagens:** Next.js Image Optimization
-- **Lazy loading:** Componentes e rotas carregadas sob demanda
-- **Caching:** Cache agressivo de respostas similares
-
-### 9.2 Segurança & Privacidade
-
-- **Autenticação:** Supabase Auth com social login (Google, GitHub)
-- **Criptografia:** Dados sensíveis criptografados em repouso
-- **GDPR Compliance:** Possibilidade de download/deletar todos os dados
-- **Rate limiting:** Prevenção de abuso das APIs
-- **Sanitização:** Input sanitization para prevenir XSS
-
-### 9.3 Escalabilidade
-
-- **Arquitetura serverless:** Vercel Edge Functions
-- **Database scaling:** Supabase auto-scaling
-- **CDN global:** Assets servidos via Vercel Edge Network
-- **API management:** Circuit breakers para APIs externas
-
-### 9.4 Usabilidade
-
-- **Acessibilidade:** WCAG 2.1 AA compliance
-- **PWA:** Progressive Web App para instalação mobile
-- **Offline support:** Funcionalidades básicas offline via service worker
-- **Multi-idioma:** Preparado para internacionalização (i18n)
-
-### 9.5 Monitoramento
-
-- **Error tracking:** Sentry para captura de erros
-- **Analytics:** Vercel Analytics + custom events
-- **Performance monitoring:** Core Web Vitals tracking
-- **API monitoring:** Uptime e latência das APIs externas
-- **Auditoria numerológica:** Log detalhado de todos os cálculos para debugging
-
-### 9.6 Considerações Especiais - Sistema Numerológico
-
-- **Precisão matemática:** Zero tolerância a erros de cálculo (validação dupla obrigatória)
-- **Caracteres especiais:** Suporte completo a acentos em nomes (ã, ç, é, etc.)
-- **Datas edge cases:** Validação de anos bissextos, datas inválidas
-- **Performance:** Cálculos numerológicos devem ser <100ms mesmo para nomes longos
-- **Backup de dados:** Mapa numerológico é critical data, backup triplo
-- **Privacidade especial:** Nome completo + data nascimento = dados sensíveis
-- **Auditabilidade:** Cada cálculo deve ser rastreável e reproduzível
-
----
-## 🚀 10. ROADMAP DE IMPLEMENTAÇÃO (PRD Assistant Compatible)
-
-### Fase 1: Fundação + Sistema Numerológico + Design System (Horas 1-2) ✅ CONCLUÍDA
-
-- [x] Setup projeto Next.js com TypeScript + Tailwind @dev PRD-100001
-- [x] Configurar Supabase database + authentication @dev PRD-100002
-- [x] Setup Prisma schema com NumerologyMap model @dev PRD-100003
-- [x] **Implementar Design System base (cores, tipografia, componentes)** @dev PRD-100004
-- [x] **Implementar engine de cálculos numerológicos (15+ tipos)** @dev PRD-100005
-- [x] **Sistema de validação matemática dupla** @dev PRD-100006
-- [x] Estrutura de componentes base + shadcn/ui setup @dev PRD-100007
-
-### Fase 2: Mapeamento & Visualização (Horas 3-4) ✅ CONCLUÍDA
-
-- [x] **Interface de coleta nome completo + data nascimento** @dev PRD-100008
-- [x] **Sistema de apresentação completa com 6 abas organizadas** @dev PRD-100009
-- [x] **Interface completa do mapa numerológico cabalístico** @dev PRD-100010
-- [x] **Sistema de interpretações detalhadas (Destino 1-22, Missão 1-22, Dia 1-31)** @dev PRD-100011
-- [x] **Sistema de compatibilidade e números do amor** @dev PRD-100012
-- [x] **Dashboard multi-dimensional com previsões e análises cármicas** @dev PRD-100013
-
-### Fase 3: Clone Multi-Dimensional + Áudio (Horas 5-6) 🚧 EM ANDAMENTO
-
-- [x] **Integração mapa numerológico + perfil comportamental** @dev PRD-100014
-- [x] Implementar conversação por voz (Gemini Live API) @dev PRD-100015
-- [x] Interface de chat por texto funcional @dev PRD-100016
-- [x] **Clone IA que referencia insights numerológicos** @dev PRD-100017
-- [x] Sistema de salvamento integrado (mapa + conversas) @dev PRD-100018
-- [x] Deploy pipeline Vercel + environment setup @dev PRD-100019
-
-### Fase 4: Refinamento (Pós-MVP) ✅ CONCLUÍDA
-
-- [x] Implementar Modo Devaneio (simulação cenários) @dev PRD-100020
-- [x] Sistema de micro-meditações adaptativas @dev PRD-100021
-- [x] Avatar visual animado reagindo ao áudio @dev PRD-100022
-- [x] Gamificação básica (pontos, níveis) @dev PRD-100023
-- [x] Sistema de exportação (PDF/Markdown) @dev PRD-100024
-- [x] Métricas e analytics básicas @dev PRD-100025
-
----
-## 🛠️ 11. GUIA DE IMPLEMENTAÇÃO RÁPIDA
-
-### 11.1 Setup Inicial com PRD Assistant
-
-**IMPORTANTE:** Este PRD foi criado para funcionar com a **PRD Assistant Extension** para VS Code.
-
-#### Instalação da Extensão:
-
-- [ ] Instalar PRD Assistant no VS Code (fusepilot.prd-assistant) @dev PRD-300001
-- [ ] Configurar file patterns para *.md files @dev PRD-300002
-- [ ] Verificar tree view funcional no sidebar @dev PRD-300003
-
-#### Como Usar Este PRD:
-
-- Todas as tasks têm **IDs únicos** (PRD-XXXXXX) para tracking
-- **@username** assignments para cada task
-- **Checkboxes interativas** - clique para marcar como done
-- **Progress tracking** automático no sidebar
-- **Deep linking** - clique em qualquer PRD-XXXXXX para navegar
-
-### 11.2 Começar com Google AI Studio
+### PASSO 2: Instalar Dependências Críticas
 
 ```bash
+# Dependências base
+npm install @google/generative-ai
+npm install @supabase/supabase-js
+npm install @prisma/client prisma
+npm install framer-motion
+npm install @paper-design/shaders-react
+npm install d3 @types/d3
+npm install recharts
+npm install react-hook-form @hookform/resolvers zod
+npm install zustand
+npm install lucide-react
 
-# 1. Clone base do Native Audio Function Call Sandbox
-
-git clone https://github.com/google-gemini/cookbook
-
-cd cookbook/gemini-2/live-api/native-audio-function-call-sandbox
-
-
-
-# 2. Instalar dependências
-
-npm install
-
-
-
-# 3. Configurar API key
-
-cp .env.example .env
-
-# Adicionar GOOGLE_AI_API_KEY
-
-
-
-# 4. Rodar localmente
-
-npm run dev
-
+# Dev dependencies
+npm install -D @types/node typescript tailwindcss postcss autoprefixer
 ```
 
-### 11.2 Adaptações Necessárias
+### PASSO 3: Configurar .env.local
+```bash
+# Copiar template
+cp .env.example .env.local
 
-1. **Remover templates** de customer service
-2. **Adicionar onboarding** de personalidade
-3. **Implementar detecção** de personas
-4. **Personalizar system prompt** dinâmico
-5. **Adicionar histórico** com Supabase
+# Adicionar as chaves obtidas:
+GOOGLE_AI_API_KEY=sua_google_ai_api_key_aqui
+NEXT_PUBLIC_SUPABASE_URL=sua_supabase_url_aqui
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_supabase_anon_key_aqui
+DATABASE_URL=postgresql://postgres:[password]@db.[project].supabase.co:5432/postgres
+```
 
-### 11.3 System Prompt Template
+### PASSO 4: Setup do Database
+```bash
+# Gerar cliente Prisma
+npx prisma generate
+
+# Executar migrations
+npx prisma db push
+
+# Verificar se funcionou
+npx prisma studio
+```
+
+---
+
+## 🎯 VISÃO DAS OTIMIZAÇÕES
+
+**PROBLEMA ATUAL:** Self Flow tem placeholders e simulações em vez de funcionalidades reais
+
+**SOLUÇÃO:** Integração completa dos templates Google AI Studio + upgrade visual premium + sistema numerológico funcional
+
+**RESULTADO:** App com voz streaming real + agentes personalizáveis + interface premium + sistema numerológico preciso
+
+---
+
+## 🔧 OTIMIZAÇÕES CRÍTICAS
+
+### OTIMIZAÇÃO 1: VOICE STREAMING REAL
+- **Problema:** Controles de áudio falsos em `ChatInterface.tsx`
+- **Solução:** Integrar arquitetura completa do `native-audio-function-call-sandbox`
+- **Resultado:** Conversação de voz bidirecional funcional
+
+- [ ] Copiar LiveAPIContext do template Google AI Studio @dev PRD-OT001
+- [ ] Integrar GenAILiveClient com system prompts numerológicos @dev PRD-OT002  
+- [ ] Implementar AudioStreamer para streaming real @dev PRD-OT003
+- [ ] Substituir placeholders por funcionalidade real @dev PRD-OT004
+- [ ] Configurar WebRTC para captura de áudio @dev PRD-OT005
+
+### OTIMIZAÇÃO 2: SISTEMA DE AGENTES PERSONALIZÁVEIS  
+- **Problema:** Agentes estáticos vs dinâmicos
+- **Solução:** Integrar sistema de edição do `ChatterBots`
+- **Resultado:** Usuário pode personalizar seu clone digital
+
+- [ ] Integrar AgentEdit.tsx do template ChatterBots @dev PRD-OT006
+- [ ] Criar interface de customização de personalidade @dev PRD-OT007
+- [ ] Implementar salvamento de configurações personalizadas @dev PRD-OT008
+- [ ] Integrar customização com mapa numerológico @dev PRD-OT009
+- [ ] Sistema de presets por tipo de usuário @dev PRD-OT010
+
+### OTIMIZAÇÃO 3: UPGRADE VISUAL PREMIUM
+- **Problema:** Interface básica vs templates premium disponíveis  
+- **Solução:** Integrar componentes visuais dos templates de referência
+- **Resultado:** Interface com animações e elementos premium
+
+- [ ] Integrar PulsingBorderShader do personal-agent-hero @dev PRD-OT011
+- [ ] Implementar MeshGradientSVG no dashboard @dev PRD-OT012
+- [ ] Adicionar animações do rotating-earth no mapa numerológico @dev PRD-OT013
+- [ ] Integrar 3d-card-gallery para apresentação de insights @dev PRD-OT014
+- [ ] Implementar gradient-hero na landing page @dev PRD-OT015
+
+### OTIMIZAÇÃO 4: ENGINE NUMEROLÓGICO PRECISO
+- **Problema:** Cálculos numerológicos podem ter imprecisões
+- **Solução:** Sistema de validação dupla + auditoria completa
+- **Resultado:** 100% precisão matemática nos cálculos
+
+- [ ] Implementar validação dupla em todos os cálculos @dev PRD-OT016
+- [ ] Sistema de auditoria com logs detalhados @dev PRD-OT017
+- [ ] Tratamento de caracteres especiais (ç, ã, é, etc.) @dev PRD-OT018
+- [ ] Validação de datas (anos bissextos, datas inválidas) @dev PRD-OT019
+- [ ] Interface de debugging para cálculos numerológicos @dev PRD-OT020
+
+### OTIMIZAÇÃO 5: MICRO-MEDITAÇÕES FUNCIONAIS
+- **Problema:** Sistema de meditação é placeholder
+- **Solução:** Integrar text-to-speech real + áudios personalizados  
+- **Resultado:** Meditações guiadas com voz do próprio usuário
+
+- [ ] Integrar ElevenLabs API para clonagem de voz @dev PRD-OT021
+- [ ] Sistema de captura de sample de voz do usuário @dev PRD-OT022
+- [ ] Geração automática de meditações personalizadas @dev PRD-OT023
+- [ ] Player de áudio com controles avançados @dev PRD-OT024
+- [ ] Biblioteca de templates de meditação @dev PRD-OT025
+
+---
+
+## 🏗️ ARQUITETURA DE INTEGRAÇÃO
+
+### Estrutura de Arquivos Atualizada
+
+```
+src/
+├── app/
+│   ├── page.tsx # Hero premium integrado
+│   ├── numerology/
+│   │   └── page.tsx # Mapa com animações premium
+│   ├── chat/
+│   │   └── page.tsx # Voice streaming real
+│   └── dashboard/
+│       └── page.tsx # Interface premium completa
+├── components/
+│   ├── audio/
+│   │   ├── LiveAPIProvider.tsx # Context do Google AI
+│   │   ├── AudioStreamer.tsx # Streaming real
+│   │   └── VoiceCloner.tsx # Clonagem de voz
+│   ├── agents/
+│   │   ├── AgentCustomizer.tsx # Edição dinâmica
+│   │   └── PersonalityTweaker.tsx # Fine-tuning
+│   ├── premium/
+│   │   ├── PulsingBorderShader.tsx
+│   │   ├── MeshGradientSVG.tsx
+│   │   ├── RotatingEarth.tsx
+│   │   └── CardGallery3D.tsx
+│   └── numerology/
+│       ├── CalculationEngine.tsx # Engine preciso
+│       ├── ValidationSystem.tsx # Validação dupla
+│       └── AuditLogger.tsx # Logs detalhados
+├── lib/
+│   ├── live-api/
+│   │   ├── client.ts # GenAILiveClient customizado
+│   │   ├── context.ts # LiveAPIContext
+│   │   └── streaming.ts # Audio streaming
+│   ├── agents/
+│   │   ├── customizable.ts # Agentes dinâmicos
+│   │   ├── numerology-prompts.ts # Prompts baseados em números
+│   │   └── personality-engine.ts # Engine de personalidade
+│   └── numerology/
+│       ├── calculator-v2.ts # Engine otimizado
+│       ├── validator.ts # Sistema de validação
+│       └── auditor.ts # Sistema de auditoria
+```
+
+### Sistema de Prompts Integrados
 
 ```typescript
+// lib/agents/numerology-prompts.ts
+export const generateNumerologyPrompt = (
+  map: NumerologyMap, 
+  agentType: AgentType,
+  personalizations: PersonalityTweaks
+) => {
+  const base = `Você é um clone digital especializado em ${agentType}.
 
-const generateSystemPrompt = (personalityData: any, persona: PersonaType) => {
+MAPA NUMEROLÓGICO COMPLETO:
+- Motivação: ${map.motivacao} (${getNumerologyMeaning(map.motivacao, 'motivacao')})
+- Expressão: ${map.expressao} (${getNumerologyMeaning(map.expressao, 'expressao')}) 
+- Destino: ${map.destino} (${getNumerologyMeaning(map.destino, 'destino')})
+- Lições Cármicas: ${map.licoesCarmicas.join(', ')}
+- Tendências Ocultas: ${map.tendenciasOcultas.join(', ')}
+- Ano Pessoal: ${map.anoPessoal}
 
-const basePrompt = `Você é o clone digital de ${personalityData.name}.
+PERSONALIZAÇÕES DO USUÁRIO:
+${generatePersonalizationPrompt(personalizations)}
 
-Você tem clareza total sobre quem ele/ela é, sem filtros emocionais ou autossabotagem.
+INSTRUÇÕES ESPECÍFICAS:
+${getAgentInstructions(agentType)}
 
-PERSONALIDADE DETECTADA: ${persona}
+FUNCIONALIDADES DISPONÍVEIS:
+- numerologyInsightsTool: Análise numerológica detalhada
+- microMeditationTool: Meditações personalizadas
+- personalityAnalysisTool: Insights comportamentais
+- voiceCloningTool: Áudios com voz do usuário`
 
-DADOS PESSOAIS:
-
-- Idade: ${personalityData.age}
-
-- Situação atual: ${personalityData.currentSituation}
-
-- Principais desafios: ${personalityData.challenges}
-
-- Valores importantes: ${personalityData.values}
-
-COMO RESPONDER:
-
-- Fale como ${personalityData.name} falaria, mas com total clareza emocional
-
-- Use as mesmas expressões e vocabulário
-
-- Seja direto sobre padrões de autossabotagem
-
-- Ofereça perspectivas que ele/ela não consegue ver sozinho(a)
-
-- Nunca julgue, apenas reflita com clareza total
-
-PERSONA ESPECÍFICA: ${getPersonaInstructions(persona)}`;
-
-return basePrompt;
-
-};
-
+  return base
+}
 ```
 
-### 11.4 Estrutura de Arquivos
+### LiveAPI Integration
 
-```
+```typescript
+// lib/live-api/client.ts
+import { LiveAPIContext } from './context'
 
-src/
+export class SelfFlowLiveClient extends GenAILiveClient {
+  constructor(
+    numerologyMap: NumerologyMap,
+    agentConfig: AgentConfiguration,
+    personalizations: PersonalityTweaks
+  ) {
+    const systemInstruction = generateNumerologyPrompt(
+      numerologyMap,
+      agentConfig.type,
+      personalizations
+    )
+    
+    super({
+      apiKey: process.env.GOOGLE_AI_API_KEY!,
+      systemInstruction,
+      tools: [
+        numerologyInsightsTool,
+        microMeditationTool,
+        personalityAnalysisTool,
+        voiceCloningTool
+      ]
+    })
+  }
 
-├── app/
-
-│ ├── numerology/
-
-│ │ └── page.tsx # Sistema mapeamento numerológico
-
-│ ├── agent-selection/
-
-│ │ └── page.tsx # Escolha de agente especializado
-
-│ ├── onboarding/
-
-│ │ └── page.tsx # Onboarding direcionado
-
-│ ├── chat/
-
-│ │ └── page.tsx # Interface chat multi-dimensional
-
-│ ├── dashboard/
-
-│ │ └── page.tsx # Dashboard integrado (mapa + insights)
-
-│ └── layout.tsx
-
-├── components/
-
-│ ├── ui/# shadcn/ui components
-
-│ ├── numerology/
-
-│ │ ├── NumerologyForm.tsx # Coleta nome + data
-
-│ │ ├── NumerologyMap.tsx# Visualização estilo Obsidian
-
-│ │ └── NumerologyCard.tsx # Cards individuais por número
-
-│ ├── agents/
-
-│ │ ├── AgentSelector.tsx# Seleção de agente
-
-│ │ └── AgentPromptBuilder.tsx # Construção de prompts
-
-│ ├── AudioChat.tsx# Voice conversation
-
-│ ├── TextChat.tsx # Text conversation multi-agente
-
-│ ├── PersonalityDetector.tsx # Persona + numerology detection
-
-│ └── InsightCard.tsx# Insights multi-dimensionais
-
-├── lib/
-
-│ ├── numerology/
-
-│ │ ├── calculator.ts# Engine de cálculos (15+ tipos)
-
-│ │ ├── validator.ts # Validação matemática dupla
-
-│ │ └── interpreter.ts # Interpretação dos números
-
-│ ├── agents/
-
-│ │ ├── esoterico.ts # Prompts numerologia + astrologia
-
-│ │ ├── psicologico.ts # Prompts TCC + neurociência
-
-│ │ └── hibrido.ts # Integração de ambos
-
-│ ├── gemini.ts# Gemini API multi-agente
-
-│ ├── supabase.ts # Supabase client + numerology
-
-│ ├── personas.ts # Persona definitions
-
-│ └── utils.ts
-
-├── types/
-
-│ ├── numerology.ts # Types numerológicos
-
-│ ├── agents.ts # Types de agentes
-
-│ └── index.ts# TypeScript definitions
-
-└── hooks/
-
-├── useNumerology.ts# Mapa numerológico
-
-├── useAgentSelector.ts # Seleção de agente
-
-├── useAudio.ts # Audio recording hook
-
-├── usePersonality.ts # Personality detection integrada
-
-└── useConversation.ts# Chat management multi-dimensional
-
+  async processNumerologyQuery(query: string, audioData?: ArrayBuffer) {
+    return this.sendMessage({
+      text: query,
+      audio: audioData,
+      context: {
+        numerologyContext: this.numerologyMap,
+        personalityContext: this.personalizations
+      }
+    })
+  }
+}
 ```
 
 ---
-## 📋 12. DEFINIÇÃO DE PRONTO (DOD)
 
-### Para cada funcionalidade ser considerada "Done":
+## 🎨 COMPONENTES PREMIUM INTEGRADOS
 
-✅ **Desenvolvimento:**
+### Hero Section Premium
+```tsx
+// components/premium/HeroPremium.tsx
+import { PulsingBorderShader } from './PulsingBorderShader'
+import { MeshGradientSVG } from './MeshGradientSVG'
 
-- [ ] Código implementado seguindo padrões TypeScript
-- [ ] Componentes responsivos (mobile-first)
-- [ ] Integração com APIs funcionando
-- [ ] Tratamento de erros implementado
+export function HeroPremium() {
+  return (
+    <div className="min-h-screen bg-black text-white overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20" />
+      
+      <div className="relative z-10 container mx-auto px-4 py-20">
+        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+          <div className="space-y-8">
+            <h1 className="text-7xl font-bold tracking-tight">
+              Seu clone{" "}
+              <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+                numerológico
+              </span>
+            </h1>
+            <p className="text-2xl text-gray-300 leading-relaxed">
+              Converse com a versão mais clara de você mesmo, baseada em seu mapa numerológico cabalístico completo
+            </p>
+          </div>
+          
+          <div className="flex justify-center">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 blur-3xl scale-110" />
+              <PulsingBorderShader />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+```
 
-✅ **Qualidade:**
+### Dashboard Premium
+```tsx
+// components/premium/DashboardPremium.tsx  
+import { MeshGradientSVG } from './MeshGradientSVG'
+import { CardGallery3D } from './CardGallery3D'
+import { RotatingEarth } from './RotatingEarth'
 
-- [ ] Testado manualmente em Chrome, Safari, Firefox
-- [ ] Testado em dispositivos mobile (iOS/Android)
-- [ ] Performance adequada (< 3s resposta)
-- [ ] Acessibilidade básica (keyboard navigation)
-
-✅ **Dados:**
-
-- [ ] Schema do banco atualizado
-- [ ] Migrations executadas
-- [ ] Backup/restore funcionando
-- [ ] Dados persistindo corretamente
-
-✅ **Deploy:**
-
-- [ ] Deploy automático na Vercel funcionando
-- [ ] Environment variables configuradas
-- [ ] Monitoramento básico ativo
-- [ ] URL de produção acessível
-
----
-## 🎯 13. CRITÉRIOS DE SUCESSO DO MVP
-
-### Objetivo: Validar o conceito de Clone Digital personalizado
-
-#### **Métricas Primárias:**
-
-1. **Usuários completam onboarding:** >70%
-2. **Têm conversas significativas:** >5 min primeira sessão
-3. **Retornam em 48h:** >40%
-4. **Avaliam positivamente:** >4/5 stars
-
-#### **Sinais de Sucesso Qualitativo:**
-
-- Usuários expressam surpresa com precisão do clone
-- Compartilham insights obtidos espontaneamente
-- Perguntam sobre funcionalidades futuras
-- Recomendam para conhecidos
-
-#### **Critérios de Pivot:**
-
-- <30% completam onboarding (UX complexa demais)
-- <2 min sessão média (clone não é envolvente)
-- <10% retorno (produto não gera valor)
-
----
-## 🔗 14. REFERÊNCIAS E RECURSOS
-
-### Documentação Técnica:
-
-- [Gemini 2.5 Flash Audio API](https://ai.google.dev/gemini-api/docs/audio)
-- [Next.js 15 Documentation](https://nextjs.org/docs)
-- [Supabase Documentation](https://supabase.com/docs)
-- [Prisma Documentation](https://www.prisma.io/docs)
-
-### Apps de Referência (Google AI Studio):
-
-- **Native Audio Function Call Sandbox** - Base para conversação por voz
-- **ChatterBots** - Sistema de personas e customização
-- **Dictation App** - Interface de insights e notas
-
-### Inspirações de Produto:
-
-- **Replika** - Relacionamento com IA personalizada (mas genérica)
-- **Character.AI** - Múltiplas personas (mas não personalizadas)
-- **Notion AI** - Integration seamless com workflow
-
----
-## 📞 15. PRÓXIMOS PASSOS IMEDIATOS
-
-### Para Começar AGORA (Com PRD Assistant):
-
-
-#### Setup da Extensão PRD Assistant:
-
-- [ ] Abrir este arquivo PRD no VS Code @dev PRD-400001
-- [ ] Instalar extensão PRD Assistant (fusepilot.prd-assistant) @dev PRD-400002
-- [ ] Verificar sidebar "PRD Explorer" funcionando @dev PRD-400003
-- [ ] Testar clique nas checkboxes (devem ser interativas) @dev PRD-400004
-- [ ] Ver progress tracking automático funcionando @dev PRD-400005
-
-#### Setup do Projeto:
-
-- [ ] Clone repositório base Google AI Studio @dev PRD-400006
-- [ ] Configure Google AI Studio API key @dev PRD-400007
-- [ ] Configure Supabase project URL e anon key @dev PRD-400008
-- [ ] Teste hello world Gemini API @dev PRD-400009
-- [ ] Setup inicial Vercel deploy @dev PRD-400010
-#### Adaptações Prioritárias:
-
-- [ ] Remover templates customer service existentes @dev PRD-400011
-- [ ] Implementar onboarding personalidade (PRD-100007) @dev PRD-400012
-- [ ] Sistema detecção personas (PRD-100008) @dev PRD-400013
-- [ ] Chat funcional com clone personalizado (PRD-100010) @dev PRD-400014
-#### Controle via PRD Assistant:
-
-- **Usar tree view** para ver progresso geral
-- **Marcar tasks** como done conforme implementa
-- **Assignments @dev** para tracking de responsabilidade
-- **Deep links** PRD-XXXXXX para navegação rápida
-
-**Tempo estimado até MVP funcional: 4-6 horas de desenvolvimento focado**
-
----
-## ✅ CHECKLIST FINAL PRD
-
-### Completude (10/10 seções obrigatórias):
-
-- [x] **Visão do Produto** - Multi-dimensional (numerologia + comportamental) ✓
-- [x] **Personas de Usuário** - 6 personas adaptadas ao fluxo numerológico ✓
-- [x] **Requisitos Funcionais** - 21 RFs incluindo sistema numerológico completo ✓
-- [x] **Sistema Numerológico** - 15+ cálculos detalhados com validações ✓
-- [x] **User Flows** - Fluxo integrado: numerologia → agente → clone ✓
-- [x] **Database Schema** - Prisma com NumerologyMap e AgentType ✓
-- [x] **Tech Stack** - Específico incluindo engine numerológico e visualização ✓
-- [x] **Critérios de Aceitação** - Testáveis para sistema multi-dimensional ✓
-- [x] **Métricas de Sucesso** - KPIs numerológicos + comportamentais ✓
-- [x] **Requisitos Não-Funcionais** - Precisão matemática + considerações especiais ✓
-
-### Qualidade Numerológica:
-
-- [x] **Sistema de cálculos completo** - 15+ tipos numerológicos implementáveis ✓
-- [x] **Validação matemática dupla** - Zero tolerância a erros ✓
-- [x] **Multi-agente especializado** - Esotérico, psicológico, híbrido ✓
-- [x] **Implementável diretamente** - Stack definida, engine numerológico detalhado ✓
-- [x] **User stories completas** - Formato correto com critérios ✓
-- [x] **Schema alinha com features** - Todas funcionalidades suportadas ✓
-- [x] **Tech stack específico** - Versões e justificativas ✓
-- [x] **Orçamento zero** - Apenas pay-per-use APIs ✓
-
-### Implementabilidade:
-
-- [x] **MVP em 4-6h** - Roadmap detalhado ✓
-- [x] **Base existente identificada** - Google AI Studio apps ✓
-- [x] **Deploy path claro** - Vercel + Supabase ✓
-- [x] **Fallbacks definidos** - Para APIs e estados de erro ✓
+export function DashboardPremium({ numerologyMap }: { numerologyMap: NumerologyMap }) {
+  const insights = generateNumerologyInsights(numerologyMap)
+  
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black">
+      <div className="container mx-auto p-6">
+        <div className="grid grid-cols-12 gap-6">
+          {/* Mapa Numerológico Central */}
+          <div className="col-span-8 bg-black/40 rounded-2xl p-6 backdrop-blur-sm">
+            <div className="flex items-center justify-center h-96">
+              <RotatingEarth numerologyData={numerologyMap} />
+            </div>
+          </div>
+          
+          {/* Sidebar de Insights */}
+          <div className="col-span-4">
+            <CardGallery3D insights={insights} />
+          </div>
+          
+          {/* Background Animado */}
+          <div className="fixed inset-0 -z-10">
+            <MeshGradientSVG />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+```
 
 ---
 
-**STATUS FINAL:** ✅ **PRD APROVADO - PRONTO PARA IMPLEMENTAÇÃO**
+## 🔊 SISTEMA DE VOZ REAL
 
-Este PRD está completo, implementável e otimizado para desenvolvimento rápido com IA. O conceito do Self Flow está bem fundamentado, a tecnologia está disponível e o path de implementação está claro.
+### Audio Streaming Implementation
 
-**Próximo passo:** Clone o Native Audio Function Call Sandbox e comece a adaptação seguindo o roadmap definido.
+```typescript
+// components/audio/AudioStreamer.tsx
+import { useLiveAPI } from '@/hooks/use-live-api'
+
+export function AudioStreamer({ numerologyMap, agentConfig }: AudioStreamerProps) {
+  const { client, connect, disconnect, sendAudio } = useLiveAPI({
+    numerologyMap,
+    agentConfig,
+    onMessage: handleAudioResponse,
+    onError: handleAudioError
+  })
+  
+  const [isRecording, setIsRecording] = useState(false)
+  const [audioLevel, setAudioLevel] = useState(0)
+  
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      const recorder = new MediaRecorder(stream)
+      
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          sendAudio(event.data)
+        }
+      }
+      
+      recorder.start(100) // Chunk a cada 100ms
+      setIsRecording(true)
+    } catch (error) {
+      console.error('Erro ao acessar microfone:', error)
+    }
+  }
+  
+  return (
+    <div className="flex flex-col items-center space-y-4">
+      <div className="relative">
+        <button
+          onClick={isRecording ? stopRecording : startRecording}
+          className={`w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300 ${
+            isRecording 
+              ? 'bg-red-500 animate-pulse' 
+              : 'bg-blue-500 hover:bg-blue-600'
+          }`}
+        >
+          {isRecording ? <Square size={24} /> : <Mic size={24} />}
+        </button>
+        
+        {isRecording && (
+          <div className="absolute inset-0 rounded-full border-4 border-red-400 animate-ping" />
+        )}
+      </div>
+      
+      <div className="text-sm text-gray-400">
+        {isRecording ? 'Gravando...' : 'Clique para falar'}
+      </div>
+      
+      {/* Visualizador de áudio */}
+      <div className="flex space-x-1 h-8 items-end">
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div
+            key={i}
+            className="w-1 bg-blue-400 rounded-full transition-all duration-150"
+            style={{
+              height: `${Math.random() * (isRecording ? audioLevel : 0) * 32 + 4}px`
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+```
+
+---
+
+## 🤖 SISTEMA DE AGENTES PERSONALIZÁVEIS
+
+### Agent Customization Interface
+
+```tsx
+// components/agents/AgentCustomizer.tsx
+export function AgentCustomizer({ 
+  numerologyMap, 
+  currentAgent, 
+  onSave 
+}: AgentCustomizerProps) {
+  const [personalizations, setPersonalizations] = useState<PersonalityTweaks>({
+    communicationStyle: 'balanced',
+    empathyLevel: 0.8,
+    directnessLevel: 0.6,
+    numerologyFocus: ['destino', 'motivacao', 'expressao'],
+    customInstructions: ''
+  })
+  
+  return (
+    <div className="bg-gray-900 rounded-2xl p-6 space-y-6">
+      <div className="flex items-center space-x-4">
+        <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
+          <Bot size={24} />
+        </div>
+        <div>
+          <h3 className="text-xl font-semibold">Personalizar Seu Clone</h3>
+          <p className="text-gray-400">Ajuste como seu clone digital se comporta</p>
+        </div>
+      </div>
+      
+      {/* Estilo de Comunicação */}
+      <div className="space-y-3">
+        <label className="text-sm font-medium text-gray-300">Estilo de Comunicação</label>
+        <select 
+          value={personalizations.communicationStyle}
+          onChange={(e) => setPersonalizations(prev => ({
+            ...prev, 
+            communicationStyle: e.target.value as CommunicationStyle
+          }))}
+          className="w-full bg-gray-800 border border-gray-700 rounded-lg p-3"
+        >
+          <option value="gentle">Gentil e Encorajador</option>
+          <option value="balanced">Equilibrado</option>
+          <option value="direct">Direto e Honesto</option>
+          <option value="challenging">Desafiador</option>
+        </select>
+      </div>
+      
+      {/* Níveis de Empatia e Franqueza */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-3">
+          <label className="text-sm font-medium text-gray-300">
+            Nível de Empatia: {Math.round(personalizations.empathyLevel * 100)}%
+          </label>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.1"
+            value={personalizations.empathyLevel}
+            onChange={(e) => setPersonalizations(prev => ({
+              ...prev,
+              empathyLevel: parseFloat(e.target.value)
+            }))}
+            className="w-full"
+          />
+        </div>
+        
+        <div className="space-y-3">
+          <label className="text-sm font-medium text-gray-300">
+            Nível de Franqueza: {Math.round(personalizations.directnessLevel * 100)}%
+          </label>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.1"
+            value={personalizations.directnessLevel}
+            onChange={(e) => setPersonalizations(prev => ({
+              ...prev,
+              directnessLevel: parseFloat(e.target.value)
+            }))}
+            className="w-full"
+          />
+        </div>
+      </div>
+      
+      {/* Foco Numerológico */}
+      <div className="space-y-3">
+        <label className="text-sm font-medium text-gray-300">Focar nestes Números</label>
+        <div className="flex flex-wrap gap-2">
+          {NUMEROLOGY_TYPES.map((type) => (
+            <button
+              key={type.key}
+              onClick={() => toggleNumerologyFocus(type.key)}
+              className={`px-3 py-2 rounded-lg text-sm transition-all ${
+                personalizations.numerologyFocus.includes(type.key)
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+              }`}
+            >
+              {type.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      
+      {/* Instruções Customizadas */}
+      <div className="space-y-3">
+        <label className="text-sm font-medium text-gray-300">Instruções Personalizadas</label>
+        <textarea
+          value={personalizations.customInstructions}
+          onChange={(e) => setPersonalizations(prev => ({
+            ...prev,
+            customInstructions: e.target.value
+          }))}
+          placeholder="Adicione instruções específicas para seu clone..."
+          className="w-full bg-gray-800 border border-gray-700 rounded-lg p-3 h-24 resize-none"
+        />
+      </div>
+      
+      <button
+        onClick={() => onSave(personalizations)}
+        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-medium hover:from-purple-700 hover:to-blue-700 transition-all"
+      >
+        Salvar Personalizações
+      </button>
+    </div>
+  )
+}
+```
+
+---
+
+## 🔢 ENGINE NUMEROLÓGICO OTIMIZADO
+
+### Sistema de Validação Dupla
+
+```typescript
+// lib/numerology/validator.ts
+export class NumerologyValidator {
+  static validateCalculation(
+    name: string, 
+    birthDate: Date, 
+    calculationType: NumerologyType,
+    result: number
+  ): ValidationResult {
+    // Primeira validação - cálculo direto
+    const primaryResult = this.calculatePrimary(name, birthDate, calculationType)
+    
+    // Segunda validação - método alternativo
+    const secondaryResult = this.calculateSecondary(name, birthDate, calculationType)
+    
+    // Terceira validação - verificação cruzada
+    const crossCheck = this.performCrossCheck(name, birthDate, calculationType)
+    
+    const isValid = primaryResult === secondaryResult && 
+                   secondaryResult === result &&
+                   crossCheck.isConsistent
+    
+    return {
+      isValid,
+      primaryResult,
+      secondaryResult,
+      inputResult: result,
+      crossCheck,
+      timestamp: new Date(),
+      auditLog: this.generateAuditLog(name, birthDate, calculationType, {
+        primary: primaryResult,
+        secondary: secondaryResult,
+        input: result,
+        crossCheck
+      })
+    }
+  }
+  
+  private static calculatePrimary(
+    name: string, 
+    birthDate: Date, 
+    type: NumerologyType
+  ): number {
+    // Implementação do método principal de cálculo
+    switch (type) {
+      case 'motivacao':
+        return this.calculateMotivacao(name)
+      case 'expressao':
+        return this.calculateExpressao(name)
+      case 'destino':
+        return this.calculateDestino(birthDate)
+      // ... outros tipos
+      default:
+        throw new Error(`Tipo de cálculo não suportado: ${type}`)
+    }
+  }
+  
+  private static calculateSecondary(
+    name: string, 
+    birthDate: Date, 
+    type: NumerologyType
+  ): number {
+    // Implementação de método alternativo para validação cruzada
+    // Usa algoritmo ligeiramente diferente mas deve chegar no mesmo resultado
+    // ...
+  }
+}
+```
+
+### Auditoria Detalhada
+
+```typescript
+// lib/numerology/auditor.ts
+export class NumerologyAuditor {
+  static async logCalculation(
+    userId: string,
+    calculationData: CalculationAuditData
+  ): Promise<void> {
+    const auditEntry = {
+      id: generateId(),
+      userId,
+      timestamp: new Date(),
+      calculationType: calculationData.type,
+      inputData: {
+        name: calculationData.name,
+        birthDate: calculationData.birthDate,
+        originalInput: calculationData.originalInput
+      },
+      calculations: {
+        primaryMethod: calculationData.primaryResult,
+        secondaryMethod: calculationData.secondaryResult,
+        finalResult: calculationData.finalResult
+      },
+      validation: {
+        isValid: calculationData.isValid,
+        discrepancies: calculationData.discrepancies || [],
+        confidence: calculationData.confidence
+      },
+      environment: {
+        userAgent: navigator.userAgent,
+        timestamp: Date.now(),
+        version: process.env.NEXT_PUBLIC_APP_VERSION
+      }
+    }
+    
+    // Salvar no banco para auditoria
+    await supabase
+      .from('numerology_audit_log')
+      .insert(auditEntry)
+      
+    // Log local para debugging
+    console.log('[NUMEROLOGY_AUDIT]', auditEntry)
+  }
+  
+  static async getAuditHistory(userId: string): Promise<AuditEntry[]> {
+    const { data, error } = await supabase
+      .from('numerology_audit_log')
+      .select('*')
+      .eq('userId', userId)
+      .order('timestamp', { ascending: false })
+      .limit(100)
+      
+    if (error) throw error
+    return data
+  }
+}
+```
+
+---
+
+## 🎵 SISTEMA DE MICRO-MEDITAÇÕES
+
+### Voice Cloning Integration
+
+```typescript
+// lib/voice/cloner.ts
+import { ElevenLabsAPI } from '@/lib/elevenlabs'
+
+export class VoiceCloner {
+  private elevenLabs: ElevenLabsAPI
+  
+  constructor(apiKey: string) {
+    this.elevenLabs = new ElevenLabsAPI(apiKey)
+  }
+  
+  async cloneVoice(
+    userId: string, 
+    audioSample: ArrayBuffer, 
+    voiceName: string
+  ): Promise<ClonedVoice> {
+    try {
+      // Upload do sample de áudio
+      const voiceId = await this.elevenLabs.cloneVoice({
+        name: `${voiceName}_${userId}`,
+        files: [audioSample],
+        description: `Voz clonada para usuário ${userId}`
+      })
+      
+      // Salvar referência no banco
+      await supabase
+        .from('user_voices')
+        .upsert({
+          userId,
+          voiceId,
+          voiceName,
+          createdAt: new Date(),
+          isActive: true
+        })
+      
+      return {
+        userId,
+        voiceId,
+        voiceName,
+        status: 'ready'
+      }
+    } catch (error) {
+      console.error('Erro ao clonar voz:', error)
+      throw new Error('Falha na clonagem de voz')
+    }
+  }
+  
+  async generateMeditation(
+    userId: string,
+    meditationScript: string,
+    numerologyContext: NumerologyMap
+  ): Promise<MeditationAudio> {
+    const userVoice = await this.getUserVoice(userId)
+    
+    if (!userVoice) {
+      throw new Error('Voz do usuário não encontrada')
+    }
+    
+    // Personalizar script baseado na numerologia
+    const personalizedScript = this.personalizeMeditationScript(
+      meditationScript,
+      numerologyContext
+    )
+    
+    // Gerar áudio com voz clonada
+    const audioBuffer = await this.elevenLabs.generateAudio({
+      text: personalizedScript,
+      voiceId: userVoice.voiceId,
+      settings: {
+        stability: 0.75,
+        similarityBoost: 0.85,
+        style: 0.2
+      }
+    })
+    
+    // Salvar áudio gerado
+    const audioUrl = await this.uploadAudio(userId, audioBuffer)
+    
+    return {
+      userId,
+      script: personalizedScript,
+      audioUrl,
+      duration: this.estimateAudioDuration(personalizedScript),
+      numerologyContext,
+      createdAt: new Date()
+    }
+  }
+}
+```
+
+### Meditation Templates
+
+```typescript
+// lib/meditation/templates.ts
+export const MEDITATION_TEMPLATES = {
+  numerology_insight: {
+    title: 'Insights do Seu Número {numerologyNumber}',
+    script: `
+      Respire profundamente e se conecte com a energia do seu número {numerologyNumber}.
+      
+      {numerologyMeaning}
+      
+      Sinta como essa energia ressoa dentro de você...
+      
+      Inspire essa qualidade... expire qualquer resistência...
+      
+      Você está alinhado com seu propósito numerológico...
+    `,
+    duration: 300, // 5 minutos
+    triggers: ['high_stress', 'decision_making', 'clarity_needed']
+  },
+  
+  karmic_healing: {
+    title: 'Cura das Lições Cármicas',
+    script: `
+      Suas lições cármicas são: {karmicLessons}
+      
+      Essas são áreas de crescimento, não falhas...
+      
+      Inspire compaixão por si mesmo... expire julgamento...
+      
+      Cada desafio é uma oportunidade de evolução...
+    `,
+    duration: 420, // 7 minutos
+    triggers: ['self_criticism', 'feeling_stuck', 'pattern_recognition']
+  }
+}
+
+export function generatePersonalizedMeditation(
+  template: MeditationTemplate,
+  numerologyMap: NumerologyMap,
+  currentMood: UserMood
+): string {
+  let script = template.script
+  
+  // Substituir placeholders numerológicos
+  script = script.replace('{numerologyNumber}', numerologyMap.destino.toString())
+  script = script.replace('{numerologyMeaning}', getNumerologyMeaning(numerologyMap.destino, 'destino'))
+  script = script.replace('{karmicLessons}', numerologyMap.licoesCarmicas.join(', '))
+  
+  // Ajustar baseado no humor atual
+  if (currentMood === 'anxious') {
+    script = script.replace('Respire profundamente', 'Respire bem devagar, com calma total')
+  }
+  
+  return script
+}
+```
+
+---
+
+## 📊 MÉTRICAS E MONITORAMENTO
+
+### Analytics Integration
+
+```typescript
+// lib/analytics/tracker.ts
+export class SelfFlowAnalytics {
+  static trackNumerologyCalculation(
+    userId: string,
+    calculationType: NumerologyType,
+    result: number,
+    validationPassed: boolean
+  ) {
+    // Analytics interno
+    this.trackEvent('numerology_calculation', {
+      userId,
+      calculationType,
+      result,
+      validationPassed,
+      timestamp: Date.now()
+    })
+    
+    // Vercel Analytics
+    if (typeof window !== 'undefined') {
+      window.va?.track('numerology_calculation', {
+        type: calculationType,
+        valid: validationPassed
+      })
+    }
+  }
+  
+  static trackVoiceInteraction(
+    userId: string,
+    duration: number,
+    responseQuality: number,
+    agentType: AgentType
+  ) {
+    this.trackEvent('voice_interaction', {
+      userId,
+      duration,
+      responseQuality,
+      agentType,
+      timestamp: Date.now()
+    })
+  }
+  
+  static trackAgentCustomization(
+    userId: string,
+    customizations: PersonalityTweaks,
+    satisfactionScore?: number
+  ) {
+    this.trackEvent('agent_customization', {
+      userId,
+      customizations,
+      satisfactionScore,
+      timestamp: Date.now()
+    })
+  }
+}
+```
+
+---
+
+## 🚀 IMPLEMENTAÇÃO E DEPLOY
+
+### Scripts de Build
+```json
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "test": "jest",
+    "deploy": "npm run build && vercel --prod"
+  }
+}
+```
+
+### Checklist de Deploy
+
+- [ ] Configurar todas as environment variables na Vercel @devops PRD-OT026
+- [ ] Testar build de produção localmente @dev PRD-OT027  
+- [ ] Executar migrations do Prisma @dev PRD-OT028
+- [ ] Configurar domínio personalizado @devops PRD-OT029
+- [ ] Setup de monitoramento e alertas @devops PRD-OT030
+- [ ] Teste de performance e otimizações @dev PRD-OT031
+- [ ] Backup de dados críticos @devops PRD-OT032
+- [ ] Documentação de troubleshooting @dev PRD-OT033
+
+---
+
+## 🎯 CRITÉRIOS DE SUCESSO
+
+### Funcionalidades Deve Estar 100% Funcionais
+- [ ] Voice streaming bidirecional sem falhas @qa PRD-OT034
+- [ ] Cálculos numerológicos com 100% precisão @qa PRD-OT035
+- [ ] Agentes personalizáveis salvando configurações @qa PRD-OT036
+- [ ] Interface premium com animações suaves @qa PRD-OT037
+- [ ] Micro-meditações com voz clonada funcionando @qa PRD-OT038
+
+### Performance Benchmarks
+- [ ] Tempo de resposta < 3s para texto @qa PRD-OT039
+- [ ] Tempo de resposta < 5s para áudio @qa PRD-OT040
+- [ ] Cálculos numerológicos < 100ms @qa PRD-OT041
+- [ ] Interface responsiva em dispositivos móveis @qa PRD-OT042
+- [ ] Uptime > 99.9% @qa PRD-OT043
+
+### Validação de Integração
+- [ ] Todos os templates Google AI Studio integrados @qa PRD-OT044
+- [ ] Componentes premium funcionando @qa PRD-OT045  
+- [ ] Sistema de auditoria numerológica ativo @qa PRD-OT046
+- [ ] Backup automático funcionando @qa PRD-OT047
+- [ ] Monitoramento e alertas configurados @qa PRD-OT048
+
+---
+
+## ✅ CONCLUSÃO
+
+Este PRD elimina todos os placeholders e simulações do Self Flow atual, integrando funcionalidades reais baseadas nos templates Google AI Studio disponíveis.
+
+**RESULTADO FINAL:**
+- Voice streaming bidirecional funcional
+- Agentes AI personalizáveis dinamicamente  
+- Interface premium com animações avançadas
+- Sistema numerológico com precisão matemática 100%
+- Micro-meditações com voz clonada do usuário
+- Auditoria completa e monitoramento
+
+**STATUS:** Pronto para implementação imediata seguindo as configurações de environment e dependências especificadas no início deste documento.
