@@ -13,28 +13,19 @@ import {
   MicOff, 
   Volume2, 
   VolumeX, 
-  User, 
-  Bot,
   Loader2,
   Sparkles,
   Brain,
-  Star
+  Star,
+  Wifi,
+  WifiOff,
+  RefreshCw,
+  Bot
 } from 'lucide-react';
 
 import type { NumerologyMap } from '@/lib/numerology/calculator';
 import type { PersonalityProfile, AgentType } from '@/lib/agents/base';
-import { GeminiClient } from '@/lib/gemini';
-import { AgentFactory } from '@/lib/agents';
-
-interface Message {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp: Date;
-  emotionalTone?: string;
-  insights?: string[];
-  isTyping?: boolean;
-}
+import { useConversation } from '@/hooks/useConversation';
 
 interface ChatInterfaceProps {
   numerologyMap: NumerologyMap;
@@ -49,59 +40,39 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   selectedAgent,
   onInsightGenerated
 }) => {
-  const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [sessionId, setSessionId] = useState<string | null>(null);
   const [chatMode, setChatMode] = useState<'text' | 'voice'>('text');
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const geminiClient = useRef<GeminiClient | null>(null);
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const speechSynthesis = useRef<SpeechSynthesis | null>(null);
 
-  // Inicializa cliente Gemini e sessão
+  // Hook para gerenciar conversa
+  const {
+    messages,
+    isLoading,
+    isConnected,
+    fallbackMode,
+    error,
+    sessionId,
+    startConversation,
+    sendMessage,
+    endConversation,
+    clearError,
+    retryConnection
+  } = useConversation({
+    numerologyMap,
+    personalityProfile,
+    selectedAgent,
+    onInsightGenerated
+  });
+
+  // Inicializa conversa quando componente monta
   useEffect(() => {
-    const initializeChat = async () => {
-      try {
-        geminiClient.current = new GeminiClient();
-        
-        // Cria agente personalizado
-        const agent = AgentFactory.createAgent({
-          numerologyMap,
-          personalityProfile,
-          preferredAgent: selectedAgent
-        });
-
-        // Inicia sessão
-        const newSessionId = await geminiClient.current.startConversation(agent);
-        setSessionId(newSessionId);
-
-        // Adiciona mensagem de boas-vindas
-        const welcomeMessage: Message = {
-          id: generateId(),
-          role: 'assistant',
-          content: generateWelcomeMessage(),
-          timestamp: new Date()
-        };
-        
-        setMessages([welcomeMessage]);
-        
-      } catch (error) {
-        console.error('Erro ao inicializar chat:', error);
-        setMessages([{
-          id: generateId(),
-          role: 'assistant',
-          content: 'Olá! Estou temporariamente indisponível, mas você pode continuar conversando comigo. Como posso ajudá-lo hoje?',
-          timestamp: new Date()
-        }]);
-      }
-    };
-
-    initializeChat();
+    startConversation();
 
     // Configura Web Speech API se disponível
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
@@ -110,136 +81,41 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
     return () => {
       // Cleanup da sessão
-      if (geminiClient.current && sessionId) {
-        geminiClient.current.forceEndSession(sessionId);
+      if (sessionId) {
+        endConversation();
       }
     };
-  }, [numerologyMap, personalityProfile, selectedAgent]);
+  }, []);
 
   // Auto-scroll para última mensagem
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const generateWelcomeMessage = (): string => {
-    const agentNames = {
-      'ESOTERICO': '🔮 Agente Esotérico',
-      'PSICOLOGICO': '🧠 Agente Psicológico', 
-      'HYBRID': '🌟 Agente Híbrido'
-    };
 
-    return `Olá, ${personalityProfile.name}! 
 
-Sou seu ${agentNames[selectedAgent]}, criado especificamente com base em seu mapa numerológico e perfil comportamental.
-
-Acabei de analisar seus números pessoais:
-• Motivação: ${numerologyMap.motivacao}
-• Expressão: ${numerologyMap.expressao} 
-• Destino: ${numerologyMap.destino}
-• Ano Pessoal: ${numerologyMap.anoPessoal}
-
-Estou aqui para conversar como a versão mais clara de você mesmo, sem filtros emocionais ou autossabotagem. O que gostaria de explorar hoje?`;
-  };
-
-  const sendMessage = async () => {
-    if (!inputMessage.trim() || isLoading || !sessionId) return;
-
-    const userMessage: Message = {
-      id: generateId(),
-      role: 'user',
-      content: inputMessage,
-      timestamp: new Date()
-    };
-
-    // Adiciona mensagem do usuário
-    setMessages(prev => [...prev, userMessage]);
+  const handleSendMessage = async () => {
+    if (!inputMessage.trim() || isLoading) return;
+    
+    const messageToSend = inputMessage;
     setInputMessage('');
-    setIsLoading(true);
-
-    // Adiciona indicador de typing
-    const typingMessage: Message = {
-      id: 'typing',
-      role: 'assistant',
-      content: '',
-      timestamp: new Date(),
-      isTyping: true
-    };
-    setMessages(prev => [...prev, typingMessage]);
-
-    try {
-      if (geminiClient.current) {
-        const response = await geminiClient.current.sendMessage(sessionId, inputMessage);
-        
-        // Remove typing indicator
-        setMessages(prev => prev.filter(m => m.id !== 'typing'));
-
-        const assistantMessage: Message = {
-          id: generateId(),
-          role: 'assistant',
-          content: response.response,
-          timestamp: new Date(),
-          emotionalTone: response.emotionalTone,
-          insights: response.insights
-        };
-
-        setMessages(prev => [...prev, assistantMessage]);
-
-        // Notifica insights se callback fornecido
-        if (onInsightGenerated && response.insights?.length > 0) {
-          response.insights.forEach(insight => onInsightGenerated(insight));
+    
+    // Usa o método do hook para enviar mensagem
+    await sendMessage(messageToSend);
+    
+    // Se modo voz está ativo, fala a última resposta do assistente
+    if (chatMode === 'voice' && speechSynthesis.current) {
+      // A resposta será adicionada pelo hook, então precisamos aguardar
+      setTimeout(() => {
+        const lastMessage = messages[messages.length - 1];
+        if (lastMessage && lastMessage.role === 'assistant') {
+          speakMessage(lastMessage.content);
         }
-
-        // Se modo voz está ativo, fala a resposta
-        if (chatMode === 'voice' && speechSynthesis.current) {
-          speakMessage(response.response);
-        }
-
-      } else {
-        // Fallback sem Gemini
-        setMessages(prev => prev.filter(m => m.id !== 'typing'));
-        
-        const fallbackMessage: Message = {
-          id: generateId(),
-          role: 'assistant',
-          content: generateFallbackResponse(inputMessage),
-          timestamp: new Date()
-        };
-        
-        setMessages(prev => [...prev, fallbackMessage]);
-      }
-
-    } catch (error) {
-      console.error('Erro ao enviar mensagem:', error);
-      
-      setMessages(prev => prev.filter(m => m.id !== 'typing'));
-      
-      const errorMessage: Message = {
-        id: generateId(),
-        role: 'assistant',
-        content: 'Desculpe, tive um problema para processar sua mensagem. Pode tentar novamente?',
-        timestamp: new Date()
-      };
-      
-      setMessages(prev => [...prev, errorMessage]);
-      
-    } finally {
-      setIsLoading(false);
+      }, 100);
     }
   };
 
-  const generateFallbackResponse = (userInput: string): string => {
-    const lowerInput = userInput.toLowerCase();
-    
-    if (lowerInput.includes('obrigad')) {
-      return `De nada, ${personalityProfile.name}! Estou aqui sempre que precisar de clareza e orientação.`;
-    }
-    
-    if (lowerInput.includes('como') && lowerInput.includes('você')) {
-      return `Sou a versão mais clara e centrada de você mesmo, baseada em seu mapa numerológico único. Como posso ajudar você a ver sua situação com mais clareza?`;
-    }
-    
-    return `Entendo sua questão sobre "${userInput}". Considerando seu perfil numerológico, especialmente seu número de Destino ${numerologyMap.destino}, vejo que isso se conecta com seu caminho de vida. Pode me contar mais detalhes sobre como isso tem afetado você?`;
-  };
+
 
   const startVoiceRecording = async () => {
     if (!navigator.mediaDevices) {
@@ -310,11 +186,9 @@ Estou aqui para conversar como a versão mais clara de você mesmo, sem filtros 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      sendMessage();
+      handleSendMessage();
     }
   };
-
-  const generateId = () => `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
   const formatTimestamp = (date: Date) => {
     return date.toLocaleTimeString('pt-BR', { 
@@ -356,6 +230,24 @@ Estou aqui para conversar como a versão mais clara de você mesmo, sem filtros 
               <span className="ml-1">{selectedAgent}</span>
             </Badge>
             
+            {/* Status de conexão */}
+            <div className="flex items-center gap-1">
+              {isConnected ? (
+                <Wifi className="w-4 h-4 text-green-500" />
+              ) : (
+                <WifiOff className="w-4 h-4 text-orange-500" />
+              )}
+              <Badge variant={isConnected ? 'default' : 'secondary'}>
+                {isConnected ? 'Online' : 'Offline'}
+              </Badge>
+              
+              {fallbackMode && (
+                <Badge variant="outline" className="text-xs">
+                  Modo Local
+                </Badge>
+              )}
+            </div>
+            
             <div className="flex gap-1">
               <Button
                 variant={chatMode === 'text' ? 'default' : 'outline'}
@@ -371,6 +263,18 @@ Estou aqui para conversar como a versão mais clara de você mesmo, sem filtros 
               >
                 Voz
               </Button>
+              
+              {/* Botão de reconectar se offline */}
+              {!isConnected && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={retryConnection}
+                  disabled={isLoading}
+                >
+                  <RefreshCw className="w-3 h-3" />
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -378,6 +282,21 @@ Estou aqui para conversar como a versão mais clara de você mesmo, sem filtros 
         <div className="text-sm text-muted-foreground">
           Baseado em seu mapa numerológico • Motivação {numerologyMap.motivacao} • Destino {numerologyMap.destino}
         </div>
+        
+        {/* Notificação de erro */}
+        {error && (
+          <div className="flex items-center justify-between bg-orange-50 border border-orange-200 rounded-md p-2">
+            <span className="text-sm text-orange-700">{error}</span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearError}
+              className="text-orange-700 hover:text-orange-900"
+            >
+              ✕
+            </Button>
+          </div>
+        )}
       </CardHeader>
 
       <Separator />
@@ -397,7 +316,7 @@ Estou aqui para conversar como a versão mais clara de você mesmo, sem filtros 
                     : 'bg-muted mr-12'
                 }`}
               >
-                {message.isTyping ? (
+                {isLoading && message.id === 'typing-indicator' ? (
                   <div className="flex items-center gap-2">
                     <Loader2 className="w-4 h-4 animate-spin" />
                     <span className="text-sm">Digitando...</span>
@@ -479,7 +398,7 @@ Estou aqui para conversar como a versão mais clara de você mesmo, sem filtros 
               />
               
               <Button
-                onClick={sendMessage}
+                onClick={handleSendMessage}
                 disabled={!inputMessage.trim() || isLoading}
                 size="sm"
               >
@@ -505,7 +424,8 @@ Estou aqui para conversar como a versão mais clara de você mesmo, sem filtros 
           <div className="text-xs text-muted-foreground mt-2 text-center">
             {isRecording && 'Gravando... Clique no microfone novamente para parar'}
             {!sessionId && 'Conectando com seu clone digital...'}
-            {sessionId && !isRecording && 'Pressione Enter para enviar • Shift+Enter para nova linha'}
+            {sessionId && !isRecording && !fallbackMode && 'Pressione Enter para enviar • Shift+Enter para nova linha'}
+            {fallbackMode && 'Modo local ativo • Funcionalidade limitada sem conexão'}
           </div>
         </div>
       </CardContent>

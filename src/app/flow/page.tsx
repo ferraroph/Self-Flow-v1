@@ -262,8 +262,6 @@ const NumerologyMapWrapper: React.FC<{ onComplete: (map: NumerologyMapType) => v
       // Por enquanto, vamos simular um mapa básico para continuar o fluxo
       // Em produção, isso viria do componente NumerologyMap
       const simulatedMap: NumerologyMapType = {
-        fullName: "Usuário de Teste",
-        birthDate: new Date('1985-03-15'),
         motivacao: 11,
         impressao: 4,
         expressao: 6,
@@ -278,7 +276,10 @@ const NumerologyMapWrapper: React.FC<{ onComplete: (map: NumerologyMapType) => v
         realizacao3: 11,
         realizacaoFinal: 8,
         anoUniversal: 9,
-        anoPessoal: 9
+        anoPessoal: 9,
+        calculationLog: ["Teste: Usuário de Teste, nascido em 15/03/1985"],
+        isValidated: true,
+        calculatedAt: new Date()
       };
       onComplete(simulatedMap);
     }
