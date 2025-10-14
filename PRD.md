@@ -101,11 +101,11 @@ npx prisma studio
 - **Solução:** Integrar arquitetura completa do `native-audio-function-call-sandbox`
 - **Resultado:** Conversação de voz bidirecional funcional
 
-- [ ] Copiar LiveAPIContext do template Google AI Studio @dev PRD-OT001
-- [ ] Integrar GenAILiveClient com system prompts numerológicos @dev PRD-OT002  
-- [ ] Implementar AudioStreamer para streaming real @dev PRD-OT003
-- [ ] Substituir placeholders por funcionalidade real @dev PRD-OT004
-- [ ] Configurar WebRTC para captura de áudio @dev PRD-OT005
+- [x] Copiar LiveAPIContext do template Google AI Studio @dev PRD-OT001
+- [x] Integrar GenAILiveClient com system prompts numerológicos @dev PRD-OT002  
+- [x] Implementar AudioStreamer para streaming real @dev PRD-OT003
+- [x] Substituir placeholders por funcionalidade real @dev PRD-OT004
+- [x] Configurar WebRTC para captura de áudio @dev PRD-OT005
 
 ### OTIMIZAÇÃO 2: SISTEMA DE AGENTES PERSONALIZÁVEIS  
 - **Problema:** Agentes estáticos vs dinâmicos

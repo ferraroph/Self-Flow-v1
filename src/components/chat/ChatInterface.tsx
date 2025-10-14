@@ -26,6 +26,8 @@ import {
 import type { NumerologyMap } from '@/lib/numerology/calculator';
 import type { PersonalityProfile, AgentType } from '@/lib/agents/base';
 import { useConversation } from '@/hooks/useConversation';
+import { LiveAPIProvider, useLiveAPI } from '@/lib/live-api/LiveAPIContext';
+import AudioStreamer from '@/components/audio/AudioStreamer';
 
 interface ChatInterfaceProps {
   numerologyMap: NumerologyMap;
@@ -34,7 +36,8 @@ interface ChatInterfaceProps {
   onInsightGenerated?: (insight: string) => void;
 }
 
-const ChatInterface: React.FC<ChatInterfaceProps> = ({
+// Component interno (será wrapped pelo LiveAPIProvider)
+const ChatInterfaceInternal: React.FC<ChatInterfaceProps> = ({
   numerologyMap,
   personalityProfile,
   selectedAgent,
@@ -44,6 +47,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [isRecording, setIsRecording] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [chatMode, setChatMode] = useState<'text' | 'voice'>('text');
+  const [useNewVoiceSystem, setUseNewVoiceSystem] = useState(false);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -264,6 +268,17 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 Voz
               </Button>
               
+              {chatMode === 'voice' && (
+                <Button
+                  variant={useNewVoiceSystem ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setUseNewVoiceSystem(!useNewVoiceSystem)}
+                  className="text-xs"
+                >
+                  {useNewVoiceSystem ? 'Streaming' : 'Básico'}
+                </Button>
+              )}
+              
               {/* Botão de reconectar se offline */}
               {!isConnected && (
                 <Button
@@ -370,8 +385,21 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
         {/* Input Area */}
         <div className="p-4">
+          {/* Sistema de Voz Avançado (Streaming Real) */}
+          {chatMode === 'voice' && useNewVoiceSystem && (
+            <div className="mb-4">
+              <AudioStreamer
+                numerologyMap={numerologyMap}
+                personalityProfile={personalityProfile}
+                selectedAgent={selectedAgent}
+                onTranscription={(text) => setInputMessage(text)}
+                onError={(error) => console.error('AudioStreamer Error:', error)}
+              />
+            </div>
+          )}
+          
           <div className="flex items-center gap-2">
-            {chatMode === 'voice' && (
+            {chatMode === 'voice' && !useNewVoiceSystem && (
               <Button
                 variant={isRecording ? "destructive" : "outline"}
                 size="sm"
@@ -426,10 +454,29 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             {!sessionId && 'Conectando com seu clone digital...'}
             {sessionId && !isRecording && !fallbackMode && 'Pressione Enter para enviar • Shift+Enter para nova linha'}
             {fallbackMode && 'Modo local ativo • Funcionalidade limitada sem conexão'}
+            {chatMode === 'voice' && useNewVoiceSystem && (
+              <div className="mt-1 p-2 bg-blue-50 rounded text-blue-700">
+                🚀 Sistema de Voz Streaming Ativo • Conversação em tempo real com IA
+              </div>
+            )}
           </div>
         </div>
       </CardContent>
     </Card>
+  );
+};
+
+// Component principal com Provider
+const ChatInterface: React.FC<ChatInterfaceProps> = (props) => {
+  return (
+    <LiveAPIProvider
+      numerologyMap={props.numerologyMap}
+      personalityProfile={props.personalityProfile}
+      selectedAgent={props.selectedAgent}
+      onInsightGenerated={props.onInsightGenerated}
+    >
+      <ChatInterfaceInternal {...props} />
+    </LiveAPIProvider>
   );
 };
 
