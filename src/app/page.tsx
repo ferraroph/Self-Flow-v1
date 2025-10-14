@@ -1,33 +1,12 @@
-'use client';
-
 import React from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Calculator, User, Brain, MessageCircle, Sparkles, Star } from 'lucide-react';
-import { GradientHero } from '@/components/premium/GradientHero';
 
 export default function HomePage() {
-  const handleGetStarted = () => {
-    // Redirecionar para flow
-    window.location.href = '/flow'
-  }
-
-  const handleLearnMore = () => {
-    // Scroll para features ou abrir modal
-    document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
-    <>
-      {/* Hero Premium */}
-      <GradientHero 
-        onGetStarted={handleGetStarted}
-        onLearnMore={handleLearnMore}
-      />
-      
-      {/* Features Section */}
-      <div id="features" className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-6">
       <div className="max-w-4xl mx-auto">
         
         {/* Hero Section */}
@@ -202,7 +181,6 @@ export default function HomePage() {
         </div>
 
       </div>
-      </div>
-    </>
+    </div>
   );
 }
