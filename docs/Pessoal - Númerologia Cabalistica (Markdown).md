@@ -1,5 +1,3 @@
-```markdown
----
 ## Page 1
 
 # NUMEROLOGIA CABALÍSTICA
@@ -3813,4 +3811,3 @@ NUMEROLOGIA CABALÍSTICA: “A ÚLTIMA FRONTEIRA” 221
 **NÚMERO DE EXPRESSÃO 11** – branco, violeta e cores claras.
 
 **NÚMERO DE EXPRESSÃO 22** – violeta, branco e cores claras.
-```
