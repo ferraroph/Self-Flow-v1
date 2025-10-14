@@ -24,13 +24,66 @@ const NumerologyMap: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('core');
 
+  const formatDateInput = (value: string): string => {
+    // Remove tudo que não for número
+    const numbers = value.replace(/\D/g, '');
+    
+    // Aplica a máscara dd/mm/aaaa
+    if (numbers.length <= 2) {
+      return numbers;
+    } else if (numbers.length <= 4) {
+      return `${numbers.slice(0, 2)}/${numbers.slice(2)}`;
+    } else if (numbers.length <= 8) {
+      return `${numbers.slice(0, 2)}/${numbers.slice(2, 4)}/${numbers.slice(4)}`;
+    } else {
+      return `${numbers.slice(0, 2)}/${numbers.slice(2, 4)}/${numbers.slice(4, 8)}`;
+    }
+  };
+
+  const isValidDate = (dateString: string): boolean => {
+    if (!dateString || dateString.length !== 10) return false;
+    
+    const [day, month, year] = dateString.split('/').map(num => parseInt(num));
+    
+    if (!day || !month || !year) return false;
+    if (day < 1 || day > 31) return false;
+    if (month < 1 || month > 12) return false;
+    if (year < 1900 || year > new Date().getFullYear()) return false;
+    
+    // Verifica se a data é válida
+    const date = new Date(year, month - 1, day);
+    return date.getDate() === day && date.getMonth() === month - 1 && date.getFullYear() === year;
+  };
+
+  const parseDate = (dateString: string): Date => {
+    // Se for formato brasileiro dd/mm/aaaa
+    if (dateString.includes('/')) {
+      const [day, month, year] = dateString.split('/');
+      return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    }
+    // Se for formato ISO yyyy-mm-dd
+    return new Date(dateString);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.fullName || !formData.birthDate) return;
     
+    // Validar data de nascimento
+    if (!isValidDate(formData.birthDate)) {
+      alert('Por favor, insira uma data de nascimento válida no formato dd/mm/aaaa');
+      return;
+    }
+    
+    // Validar data do parceiro se fornecida
+    if (formData.partnerBirthDate && !isValidDate(formData.partnerBirthDate)) {
+      alert('Por favor, insira uma data de nascimento válida para o parceiro no formato dd/mm/aaaa');
+      return;
+    }
+    
     setLoading(true);
     try {
-      const birthDate = new Date(formData.birthDate);
+      const birthDate = parseDate(formData.birthDate);
       const options: any = { 
         includeInterpretations: true,
         includePredictions: true
@@ -40,7 +93,7 @@ const NumerologyMap: React.FC = () => {
         options.includeCompatibility = true;
         options.partnerData = {
           fullName: formData.partnerName,
-          birthDate: new Date(formData.partnerBirthDate)
+          birthDate: parseDate(formData.partnerBirthDate)
         };
       }
       
@@ -126,9 +179,12 @@ const NumerologyMap: React.FC = () => {
                 <Label htmlFor="birthDate">Data de Nascimento</Label>
                 <Input
                   id="birthDate"
-                  type="date"
+                  type="text"
                   value={formData.birthDate}
-                  onChange={(e) => setFormData(prev => ({ ...prev, birthDate: e.target.value }))}
+                  onChange={(e) => setFormData(prev => ({ ...prev, birthDate: formatDateInput(e.target.value) }))}
+                  placeholder="dd/mm/aaaa"
+                  pattern="\d{2}/\d{2}/\d{4}"
+                  maxLength={10}
                   required
                 />
               </div>
@@ -145,9 +201,12 @@ const NumerologyMap: React.FC = () => {
                 <Label htmlFor="partnerBirthDate">Data de Nascimento do Parceiro</Label>
                 <Input
                   id="partnerBirthDate"
-                  type="date"
+                  type="text"
                   value={formData.partnerBirthDate}
-                  onChange={(e) => setFormData(prev => ({ ...prev, partnerBirthDate: e.target.value }))}
+                  onChange={(e) => setFormData(prev => ({ ...prev, partnerBirthDate: formatDateInput(e.target.value) }))}
+                  placeholder="dd/mm/aaaa"
+                  pattern="\d{2}/\d{2}/\d{4}"
+                  maxLength={10}
                   disabled={!formData.partnerName}
                 />
               </div>

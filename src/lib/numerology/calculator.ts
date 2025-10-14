@@ -50,7 +50,7 @@ const LETTER_VALUES: Record<string, number> = {
   'È': 1,
   'Ë': 1,
 
-  'Í': 1,
+  'Í': 3,
   'Î': 8,
   'Ì': 2,
   'ï': 2,
