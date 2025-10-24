@@ -1,5 +1,5 @@
 // This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// learn more about it in the docs: https/pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -11,168 +11,155 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  email       String?  @unique
-  name        String
-  fullName    String   // Nome completo com acentos para numerologia
-  birthDate   DateTime // Data nascimento para cálculos numerológicos
-  age         Int?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                      String   @id @default(cuid())
+  clerkId                 String   @unique
+  fullName                String?
+  birthDate               DateTime?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  points                  Int      @default(0)
+  onboardingData          Json?
+  systemPrompt            String?
+  selectedAgent           AgentType @default(HYBRID)
 
-  // Dados de personalidade
-  personalityData Json // Respostas do onboarding direcionado
-  personaType     PersonaType? // Persona detectada automaticamente
-  systemPrompt    String? // System prompt personalizado
-  selectedAgent   AgentType @default(HYBRID) // Tipo de agente escolhido
+  mentorId                String?
+  menteeId                String?
+  mentor                  User?    @relation("Mentorship", fields: [mentorId], references: [id], onDelete: SetNull)
+  mentee                  User?    @relation("Mentorship", fields: [menteeId], references: [id], onDelete: SetNull)
 
-  // Configurações
-  preferredMode ConversationMode @default(TEXT)
-  timezone      String?
-  language      String           @default("pt-BR")
-
-  // Relacionamentos
-  numerologyMap NumerologyMap?
-  conversations Conversation[]
-  insights      Insight[]
-
+  numerologyMap           NumerologyMap?
+  conversations           Conversation[]
+  insights                Insight[]
+  posts                   Post[]
+  replies                 Reply[]
+  badges                  UserBadge[]
+  sentMessages            PrivateMessage[] @relation("sentMessages")
+  receivedMessages        PrivateMessage[] @relation("receivedMessages")
+  privateConversations    PrivateConversation[] @relation(references: [id])
   @@map("users")
 }
 
+model Badge {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  description String
+  icon        String
+  users       UserBadge[]
+  @@map("badges")
+}
+
+model UserBadge {
+  id         String   @id @default(cuid())
+  userId     String
+  badgeId    String
+  assignedAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge      Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  @@unique([userId, badgeId])
+  @@map("user_badges")
+}
+
 model NumerologyMap {
-  id     String @id @default(cuid())
-  userId String @unique
-
-  // Números Principais (15+ calculados)
-  motivacao           Int // Soma das vogais do nome
-  impressao           Int // Primeira impressão que causa
-  expressao           Int // Soma total do nome completo
-  destino             Int // Soma da data de nascimento
-  licoesCarmicas      Json // Array de números que faltam
-  tendenciasOcultas   Json // Array de números repetidos
-  harmonicoSuperior   Int // Cálculo específico
-  desafioMenor        Int // Diferença entre mês e dia
-  desafioMaior        Int // Diferença entre ano e destino
-  realizacao1         Int // Primeira realização
-  realizacao2         Int // Segunda realização
-  realizacao3         Int // Terceira realização
-  realizacaoFinal     Int // Realização final
-  anoUniversal        Int // Ano atual em numerologia
-  anoPessoal          Int // Ciclo pessoal atual
-
-  // Metadados dos cálculos
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  motivacao    Int
+  impressao    Int
+  expressao    Int
+  destino      Int
   calculatedAt DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  isValidated  Boolean  @default(false) // Validação matemática
-
-  // Relacionamentos
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@map("numerology_maps")
 }
 
+// AI CONVERSATION MODELS
 model Conversation {
-  id      String             @id @default(cuid())
-  userId  String
-  title   String? // Auto-gerado ou definido pelo usuário
-  mode    ConversationMode
-  status  ConversationStatus @default(ACTIVE)
-  summary String? // Resumo automático pós-conversa
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relacionamentos
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  messages Message[]
-  insights Insight[]
-
+  id        String    @id @default(cuid())
+  userId    String
+  title     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  Message[]
   @@map("conversations")
 }
 
 model Message {
-  id             String   @id @default(cuid())
+  id             String       @id @default(cuid())
   conversationId String
   role           MessageRole
-  content        String // Texto da mensagem
-  audioUrl       String? // URL do áudio se for voz
-  timestamp      DateTime @default(now())
-
-  // Metadados
-  emotionalTone String? // Detectado pela IA
-  confidence    Float? // Nível de confiança da resposta
-  tokensUsed    Int? // Para controle de custos
-
-  // Relacionamentos
-  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-
+  content        String
+  timestamp      DateTime     @default(now())
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   @@map("messages")
 }
 
+// USER-TO-USER MESSAGING MODELS
+model PrivateConversation {
+    id          String @id @default(cuid())
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    participants User[] @relation(references: [id])
+    messages    PrivateMessage[]
+    @@map("private_conversations")
+}
+
+model PrivateMessage {
+    id              String   @id @default(cuid())
+    content         String
+    createdAt       DateTime @default(now())
+    senderId        String
+    recipientId     String
+    conversationId  String
+    sender          User     @relation("sentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+    recipient       User     @relation("receivedMessages", fields: [recipientId], references: [id], onDelete: Cascade)
+    conversation    PrivateConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+    @@map("private_messages")
+}
+
+
 model Insight {
-  id             String            @id @default(cuid())
-  userId         String
-  conversationId String? // Pode ser de conversa específica ou geral
-  title          String
-  description    String
-  category       InsightCategory
-  importance     InsightImportance @default(MEDIUM)
-  isRead         Boolean           @default(false)
-  createdAt      DateTime          @default(now())
-
-  // Relacionamentos
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  conversation Conversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull)
-
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  description String
+  category    String
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@map("insights")
 }
 
-// Enums
-enum PersonaType {
-  EMPREENDEDOR_TRAVADO
-  EMPRESARIO_SOBRECARREGADO
-  BUSCADORA_TOXICA
-  BUSCADOR_FILOSOFICO
-  HIGH_PERFORMER
-  ESPIRITUAL
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  replies   Reply[]
+  @@map("posts")
+}
+
+model Reply {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  @@map("replies")
 }
 
 enum AgentType {
-  ESOTERICO   // Numerologia + Astrologia
-  PSICOLOGICO // TCC + Neurociência
-  HYBRID      // Integração de ambas abordagens
-}
-
-enum ConversationMode {
-  VOICE
-  TEXT
-  MIXED
-}
-
-enum ConversationStatus {
-  ACTIVE
-  COMPLETED
-  ARCHIVED
+  ESOTERICO
+  PSICOLOGICO
+  HYBRID
 }
 
 enum MessageRole {
   USER
   ASSISTANT
-  SYSTEM
-}
-
-enum InsightCategory {
-  PADRAO_COMPORTAMENTAL
-  DECISAO_IMPORTANTE
-  EMOCIONAL
-  PROFISSIONAL
-  RELACIONAMENTO
-  AUTOCONHECIMENTO
-}
-
-enum InsightImportance {
-  LOW
-  MEDIUM
-  HIGH
-  CRITICAL
 }

@@ -1,231 +1,106 @@
-/**
- * Self Flow - API Route para Conversas
- * Endpoint seguro para comunicação com Gemini AI
- */
-
 import { NextRequest, NextResponse } from 'next/server';
-import { GeminiClient } from '@/lib/gemini';
-import { AgentFactory } from '@/lib/agents';
-import type { NumerologyMap } from '@/lib/numerology/calculator';
-import type { PersonalityProfile, AgentType } from '@/lib/agents/base';
+import { auth } from '@clerk/nextjs';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import { PrismaClient, Prisma } from '@prisma/client';
 
-interface ConversationRequest {
-  action: 'start' | 'message' | 'end';
-  sessionId?: string;
-  message?: string;
-  numerologyMap?: NumerologyMap;
-  personalityProfile?: PersonalityProfile;
-  selectedAgent?: AgentType;
-}
+const prisma = new PrismaClient();
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
 
-interface ConversationResponse {
-  success: boolean;
-  data?: any;
-  error?: string;
-}
+const generatePsychologicalSummary = (data: Prisma.JsonValue): string => {
+    if (!data || typeof data !== 'object' || Array.isArray(data)) return '';
+    const answers = data as { [key: string]: string };
+    let summary = 'Their self-reported psychological profile indicates the following tendencies: ';
+    const descriptions: string[] = [];
+    if (answers.q1) descriptions.push(`when facing a difficult decision, they are ${answers.q1}`);
+    if (answers.q2) descriptions.push(`under stress, they are ${answers.q2}`);
+    if (answers.q3) descriptions.push(`their primary motivation is ${answers.q3}`);
+    if (descriptions.length === 0) return '';
+    return summary + descriptions.join(', ') + '. You must use these traits to inform your responses and guidance.';
+};
 
-// Cache global para sessões (em produção, usar Redis)
-let globalGeminiClient: GeminiClient | null = null;
+const checkForIntervention = (message: string): string | null => {
+    const lowerCaseMessage = message.toLowerCase();
+    if (lowerCaseMessage.includes('anxious') || lowerCaseMessage.includes('stressed') || lowerCaseMessage.includes('overwhelmed')) {
+        return "It sounds like you're feeling overwhelmed. Let's try a simple breathing exercise. Inhale for 4 seconds, hold for 4, and exhale for 6. Let's do this three times. Ready?";
+    }
+    if (lowerCaseMessage.match(/i should|i need to|i have to/) && lowerCaseMessage.includes('but')) {
+        return "It sounds like there's a conflict between what you think you should do and what you feel like doing. That's a common pattern. What's one very small step, even a tiny one, you could take toward that 'should' right now?";
+    }
+    return null;
+};
 
-// Inicializa cliente apenas quando necessário
-function getGeminiClient(): GeminiClient {
-  if (!globalGeminiClient) {
-    globalGeminiClient = new GeminiClient();
-  }
-  return globalGeminiClient;
-}
-
-export async function POST(request: NextRequest): Promise<NextResponse<ConversationResponse>> {
+export async function POST(request: NextRequest) {
   try {
-    const body: ConversationRequest = await request.json();
-    const { action, sessionId, message, numerologyMap, personalityProfile, selectedAgent } = body;
+    const { userId } = auth();
+    const body = await request.json();
+    const { message, conversationId } = body;
 
-    switch (action) {
-      case 'start':
-        if (!numerologyMap || !personalityProfile || !selectedAgent) {
-          return NextResponse.json({
-            success: false,
-            error: 'Dados obrigatórios ausentes para iniciar conversa'
-          }, { status: 400 });
-        }
+    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    
+    const user = await prisma.user.findUnique({ where: { clerkId: userId } });
+    if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
 
-        try {
-          // Cria agente personalizado
-          const agent = AgentFactory.createAgent({
-            numerologyMap,
-            personalityProfile,
-            preferredAgent: selectedAgent
-          });
-
-          // Inicia sessão com Gemini
-          const client = getGeminiClient();
-          const newSessionId = await client.startConversation(agent);
-
-          return NextResponse.json({
-            success: true,
-            data: {
-              sessionId: newSessionId,
-              welcomeMessage: generateWelcomeMessage(personalityProfile, selectedAgent, numerologyMap)
-            }
-          });
-
-        } catch (error) {
-          console.error('Erro ao iniciar conversação:', error);
-          
-          // Fallback: cria sessão local sem Gemini
-          const fallbackSessionId = `fallback_${Date.now()}`;
-          
-          return NextResponse.json({
-            success: true,
-            data: {
-              sessionId: fallbackSessionId,
-              welcomeMessage: generateWelcomeMessage(personalityProfile, selectedAgent, numerologyMap),
-              fallbackMode: true
-            }
-          });
-        }
-
-      case 'message':
-        if (!sessionId || !message) {
-          return NextResponse.json({
-            success: false,
-            error: 'SessionId e mensagem são obrigatórios'
-          }, { status: 400 });
-        }
-
-        try {
-          const client = getGeminiClient();
-          const response = await client.sendMessage(sessionId, message);
-
-          return NextResponse.json({
-            success: true,
-            data: response
-          });
-
-        } catch (error) {
-          console.error('Erro ao processar mensagem:', error);
-
-          // Fallback response baseado na mensagem
-          const fallbackResponse = generateFallbackResponse(message);
-
-          return NextResponse.json({
-            success: true,
-            data: {
-              response: fallbackResponse,
-              emotionalTone: 'neutro',
-              insights: ['Sistema temporariamente indisponível'],
-              tokensUsed: 0,
-              fallbackMode: true
-            }
-          });
-        }
-
-      case 'end':
-        if (!sessionId) {
-          return NextResponse.json({
-            success: false,
-            error: 'SessionId é obrigatório para encerrar conversa'
-          }, { status: 400 });
-        }
-
-        try {
-          const client = getGeminiClient();
-          const summary = await client.endConversation(sessionId);
-
-          return NextResponse.json({
-            success: true,
-            data: summary
-          });
-
-        } catch (error) {
-          console.error('Erro ao encerrar conversação:', error);
-
-          // Força limpeza da sessão mesmo com erro
-          if (globalGeminiClient) {
-            globalGeminiClient.forceEndSession(sessionId);
-          }
-
-          return NextResponse.json({
-            success: true,
-            data: {
-              summary: 'Conversa encerrada.',
-              duration: 0,
-              messageCount: 0,
-              totalTokens: 0,
-              mainThemes: []
-            }
-          });
-        }
-
-      default:
-        return NextResponse.json({
-          success: false,
-          error: 'Ação não reconhecida'
-        }, { status: 400 });
+    let conversation;
+    if (conversationId) {
+      conversation = await prisma.conversation.findUnique({ where: { id: conversationId } });
+    } else {
+      conversation = await prisma.conversation.create({
+        data: { userId: user.id, title: message.substring(0, 30) },
+      });
     }
 
+    if (!conversation) return NextResponse.json({ error: 'Conversation not found' }, { status: 404 });
+
+    await prisma.message.create({
+      data: { conversationId: conversation.id, role: 'USER', content: message },
+    });
+    
+    const intervention = checkForIntervention(message);
+    if (intervention) {
+        await prisma.message.create({
+            data: { conversationId: conversation.id, role: 'ASSISTANT', content: intervention },
+        });
+        return NextResponse.json({ response: intervention, conversationId: conversation.id });
+    }
+
+    let systemPrompt = `You are a personalized AI assistant for ${user.fullName}, acting as their digital twin or "Duplo". Your purpose is to help them gain absolute clarity and insights based on their numerology map and personality profile. You are empathetic, insightful, and always supportive, but your primary goal is to provide unfiltered clarity, even if it's uncomfortable. The user's birth date is ${user.birthDate}.`;
+    const psychologicalSummary = generatePsychologicalSummary(user.onboardingData);
+    if (psychologicalSummary) systemPrompt += ` ${psychologicalSummary}`;
+
+    let finalMessage = message;
+    if (message.startsWith('/devaneio')) {
+        const scenario = message.substring(10);
+        systemPrompt += ` The user wants to explore a hypothetical scenario ("Modo Devaneio"). Your task is to simulate the potential outcomes of the following situation: "${scenario}". Walk them through the likely consequences, both positive and negative, based on their known personality traits and numerological profile.`;
+        finalMessage = `Please begin the simulation for: "${scenario}"`;
+    }
+
+    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const chat = model.startChat({
+      history: [
+        { role: 'user', parts: [{ text: systemPrompt }] },
+        { role: 'model', parts: [{ text: 'I understand my role. I am the user\'s clear, unfiltered self. I am ready to assist.' }] },
+        ...(await prisma.message.findMany({
+          where: { conversationId: conversation.id },
+          orderBy: { timestamp: 'asc' },
+        })).map((msg) => ({
+          role: msg.role === 'USER' ? 'user' : 'model',
+          parts: [{ text: msg.content }],
+        })),
+      ],
+      generationConfig: { maxOutputTokens: 1500 },
+    });
+
+    const result = await chat.sendMessage(finalMessage);
+    const response = await result.response;
+    const text = response.text();
+
+    await prisma.message.create({
+      data: { conversationId: conversation.id, role: 'ASSISTANT', content: text },
+    });
+
+    return NextResponse.json({ response: text, conversationId: conversation.id });
   } catch (error) {
-    console.error('Erro na API de conversação:', error);
-
-    return NextResponse.json({
-      success: false,
-      error: 'Erro interno do servidor'
-    }, { status: 500 });
+    console.error('Error in conversation API:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-}
-
-function generateWelcomeMessage(
-  profile: PersonalityProfile, 
-  agent: AgentType, 
-  numerology: NumerologyMap
-): string {
-  const agentNames = {
-    'ESOTERICO': '🔮 Agente Esotérico',
-    'PSICOLOGICO': '🧠 Agente Psicológico', 
-    'HYBRID': '🌟 Agente Híbrido'
-  };
-
-  return `Olá, ${profile.name}! 
-
-Sou seu ${agentNames[agent]}, criado especificamente com base em seu mapa numerológico e perfil comportamental.
-
-Acabei de analisar seus números pessoais:
-• Motivação: ${numerology.motivacao}
-• Expressão: ${numerology.expressao} 
-• Destino: ${numerology.destino}
-• Ano Pessoal: ${numerology.anoPessoal}
-
-Estou aqui para conversar como a versão mais clara de você mesmo, sem filtros emocionais ou autossabotagem. O que gostaria de explorar hoje?`;
-}
-
-function generateFallbackResponse(userMessage: string): string {
-  const lowerMessage = userMessage.toLowerCase();
-  
-  if (lowerMessage.includes('obrigad')) {
-    return 'De nada! Estou aqui sempre que precisar de clareza e orientação baseada em seu mapa numerológico.';
-  }
-  
-  if (lowerMessage.includes('como') && lowerMessage.includes('você')) {
-    return 'Sou a versão mais clara e centrada de você mesmo, baseada em seu perfil numerológico único. Como posso ajudar você a ver sua situação com mais clareza?';
-  }
-  
-  if (lowerMessage.includes('decisão') || lowerMessage.includes('escolha')) {
-    return 'Para decisões importantes, é essencial considerar tanto sua intuição quanto seus padrões numerológicos. Baseado em seu perfil, que aspectos desta escolha mais te preocupam?';
-  }
-  
-  if (lowerMessage.includes('trabalho') || lowerMessage.includes('carreira')) {
-    return 'Questões profissionais se conectam diretamente com seu número de Expressão e Destino. Considerando seu mapa numerológico, o que especificamente está gerando dúvidas em sua carreira?';
-  }
-  
-  return 'Entendo sua questão. Embora eu esteja temporariamente com processamento reduzido, posso orientá-lo baseado em seus padrões numerológicos pessoais. Pode me contar mais detalhes sobre como isso tem afetado você?';
-}
-
-// Método GET para health check
-export async function GET(): Promise<NextResponse> {
-  return NextResponse.json({
-    status: 'OK',
-    service: 'Self Flow Conversation API',
-    timestamp: new Date().toISOString(),
-    availableActions: ['start', 'message', 'end']
-  });
 }
